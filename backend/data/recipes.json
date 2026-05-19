@@ -1,1 +1,9 @@
-[]
+[
+  {
+    "id": 1,
+    "nome": "Bolo de Cenoura",
+    "categoria": "Sobremesa",
+    "tempo": "50 min",
+    "imagem": "https://via.placeholder.com/300"
+  }
+]

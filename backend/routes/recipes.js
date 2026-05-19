@@ -1,15 +1,12 @@
+module.exports = router;
+
 const express = require("express");
 const router = express.Router();
+const controller = require("../controllers/recipeController");
 
-router.get("/", (req, res) => {
-  res.json([
-    {
-      id: 1,
-      nome: "Bolo de Cenoura",
-      categoria: "Sobremesa",
-      tempo: "50 min"
-    }
-  ]);
-});
+router.get("/", controller.getRecipes);
+router.post("/", controller.addRecipe);
+router.put("/:id", controller.updateRecipe);
+router.delete("/:id", controller.deleteRecipe);
 
 module.exports = router;
