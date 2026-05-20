@@ -19,5 +19,12 @@
     "categoria": "Sopas",
     "tempo": "40 min",
     "imagem": "https://www.estadao.com.br/paladar/prato-do-dia/sopa-de-milho-americana/?srsltid=AfmBOor42G8jMJDxjoDxELrPQDiUaGqjeMUqmz73a9kmjhCGeBLerjM5"
+  },
+  {
+    "id": 1779261519857,
+    "nome": "Batata recheada",
+    "categoria": "Assados",
+    "tempo": "70 min",
+    "imagem": "https://guiadacozinha.com.br/receitas/batata-recheada-de-micro-ondas/"
   }
 ]
