@@ -33,6 +33,10 @@ function RecipeCard({ recipe, onDelete }) {
           height: "220px",
           objectFit: "cover",
         }}
+        style={{
+          height: "220px",
+          objectFit: "cover",
+        }}
       />
 
       <div className="card-body d-flex flex-column">

@@ -44,7 +44,40 @@ function Recipes() {
           </div>
         ))}
       </div>
-    </div>
+
+      {recipes.length === 0 ? (
+        <div className="text-center bg-warning bg-opacity-25 rounded-5 p-5">
+          <h3 className="fw-bold">
+            Nenhuma receita cadastrada ainda
+          </h3>
+
+          <p className="text-muted">
+            Comece adicionando sua primeira receita ao CookBoss.
+          </p>
+
+          <Link
+            to="/add"
+            className="btn btn-warning rounded-pill px-4 fw-bold"
+          >
+            Adicionar Receita
+          </Link>
+        </div>
+      ) : (
+        <div className="row g-4">
+          {recipes.map((recipe) => (
+            <div
+              className="col-12 col-md-6 col-lg-4"
+              key={recipe.id}
+            >
+              <RecipeCard
+                recipe={recipe}
+                onDelete={handleDelete}
+              />
+            </div>
+          ))}
+        </div>
+      )}
+    </main>
   );
 }
 
