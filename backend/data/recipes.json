@@ -12,5 +12,12 @@
     "categoria": "Massas",
     "tempo": "90 min",
     "imagem": "https://www.receitasnestle.com.br/receitas/receita-de-pizza-estilo-margherita"
+  },
+  {
+    "id": 1779254976210,
+    "nome": "Sopa de milho",
+    "categoria": "Sopas",
+    "tempo": "40 min",
+    "imagem": "https://www.estadao.com.br/paladar/prato-do-dia/sopa-de-milho-americana/?srsltid=AfmBOor42G8jMJDxjoDxELrPQDiUaGqjeMUqmz73a9kmjhCGeBLerjM5"
   }
 ]

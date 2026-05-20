@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import SearchBar from "../components/SearchBar";
+import { Link } from "react-router-dom";
 import RecipeCard from "../components/RecipeCard";
 import api from "../services/api";
 
 function Recipes() {
   const [recipes, setRecipes] = useState([]);
-  const [search, setSearch] = useState("");
 
   useEffect(() => {
     async function fetchRecipes() {
@@ -20,22 +19,57 @@ function Recipes() {
     fetchRecipes();
   }, []);
 
-  const filteredRecipes = recipes.filter((recipe) =>
-    recipe.nome.toLowerCase().includes(search.toLowerCase())
-  );
+  function handleDelete(id) {
+    setRecipes((prevRecipes) =>
+      prevRecipes.filter((recipe) => recipe.id !== id)
+    );
+  }
 
   return (
-    <div>
-      <h2>Todas as receitas</h2>
+    <main className="container py-5">
+      <div className="text-center mb-5">
+        <span className="text-warning fw-bold">
+          CookBoss
+        </span>
 
-      <SearchBar search={search} setSearch={setSearch} />
-
-      <div className="d-flex flex-wrap gap-3">
-        {filteredRecipes.map((recipe) => (
-          <RecipeCard key={recipe.id} recipe={recipe} />
-        ))}
+        <h2 className="fw-bold mb-0">
+          Todas as Receitas 🍲
+        </h2>
       </div>
-    </div>
+
+      {recipes.length === 0 ? (
+        <div className="text-center bg-warning bg-opacity-25 rounded-5 p-5">
+          <h3 className="fw-bold">
+            Nenhuma receita cadastrada ainda
+          </h3>
+
+          <p className="text-muted">
+            Comece adicionando sua primeira receita ao CookBoss.
+          </p>
+
+          <Link
+            to="/add"
+            className="btn btn-warning rounded-pill px-4 fw-bold"
+          >
+            Adicionar Receita
+          </Link>
+        </div>
+      ) : (
+        <div className="row g-4">
+          {recipes.map((recipe) => (
+            <div
+              className="col-12 col-md-6 col-lg-4"
+              key={recipe.id}
+            >
+              <RecipeCard
+                recipe={recipe}
+                onDelete={handleDelete}
+              />
+            </div>
+          ))}
+        </div>
+      )}
+    </main>
   );
 }
 
