@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import api from "../services/api";
 import RecipeCard from "../components/RecipeCard";
 
@@ -17,6 +18,7 @@ function Recipes() {
       console.error(error);
     }
   }
+
   function handleDelete(id) {
     setRecipes((prevRecipes) =>
       prevRecipes.filter(
@@ -24,34 +26,28 @@ function Recipes() {
       )
     );
   }
-  
-  return (
-    <div className="container py-5">
-      <h2 className="text-center mb-5 fw-bold text-warning">
-        🍲 Todas as Receitas
-      </h2>
 
-      <div className="row g-4">
-        {recipes.map((recipe) => (
-          <div
-            className="col-12 col-md-6 col-lg-4"
-            key={recipe.id}
-          >
-            <RecipeCard
-              recipe={recipe}
-              onDelete={handleDelete}
-            />
-          </div>
-        ))}
+  return (
+    <main className="container py-5">
+
+      <div className="text-center mb-5">
+        <span className="text-warning fw-bold">
+          CookBoss
+        </span>
+
+        <h2 className="fw-bold mb-0">
+          🍲 Todas as Receitas
+        </h2>
       </div>
 
       {recipes.length === 0 ? (
         <div className="text-center bg-warning bg-opacity-25 rounded-5 p-5">
+
           <h3 className="fw-bold">
             Nenhuma receita cadastrada ainda
           </h3>
 
-          <p className="text-muted">
+          <p className="text-muted mb-4">
             Comece adicionando sua primeira receita ao CookBoss.
           </p>
 
@@ -61,9 +57,11 @@ function Recipes() {
           >
             Adicionar Receita
           </Link>
+
         </div>
       ) : (
         <div className="row g-4">
+
           {recipes.map((recipe) => (
             <div
               className="col-12 col-md-6 col-lg-4"
@@ -75,8 +73,10 @@ function Recipes() {
               />
             </div>
           ))}
+
         </div>
       )}
+
     </main>
   );
 }
