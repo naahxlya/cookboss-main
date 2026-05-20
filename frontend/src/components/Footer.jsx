@@ -1,7 +1,9 @@
 function Footer() {
   return (
-    <footer className="text-center p-4 mt-5 bg-light">
-      © 2026 CookBoss
+    <footer className="bg-light text-center py-4 mt-5">
+      <p className="mb-0">
+        © 2026 CookBoss
+      </p>
     </footer>
   );
 }
