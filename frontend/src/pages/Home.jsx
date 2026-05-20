@@ -78,7 +78,11 @@ function Home() {
             <Link to="/recipes" className="text-decoration-none text-dark">
               <div className="card border-0 shadow-sm rounded-4 p-4 h-100 category-card">
                 <div className="fs-1 mb-3">🥞</div>
-                <h5 className="fw-bold">Café da manhã</h5>
+
+                <h5 className="fw-bold">
+                  Café da manhã
+                </h5>
+
                 <p className="text-muted mb-0">
                   Receitas rápidas para começar bem o dia.
                 </p>
@@ -90,7 +94,11 @@ function Home() {
             <Link to="/recipes" className="text-decoration-none text-dark">
               <div className="card border-0 shadow-sm rounded-4 p-4 h-100 category-card">
                 <div className="fs-1 mb-3">🍝</div>
-                <h5 className="fw-bold">Almoço</h5>
+
+                <h5 className="fw-bold">
+                  Almoço
+                </h5>
+
                 <p className="text-muted mb-0">
                   Pratos completos para o dia a dia.
                 </p>
@@ -102,7 +110,11 @@ function Home() {
             <Link to="/recipes" className="text-decoration-none text-dark">
               <div className="card border-0 shadow-sm rounded-4 p-4 h-100 category-card">
                 <div className="fs-1 mb-3">🍰</div>
-                <h5 className="fw-bold">Sobremesas</h5>
+
+                <h5 className="fw-bold">
+                  Sobremesas
+                </h5>
+
                 <p className="text-muted mb-0">
                   Doces, bolos e pequenas alegrias açucaradas.
                 </p>
@@ -114,7 +126,11 @@ function Home() {
             <Link to="/recipes" className="text-decoration-none text-dark">
               <div className="card border-0 shadow-sm rounded-4 p-4 h-100 category-card">
                 <div className="fs-1 mb-3">🥗</div>
-                <h5 className="fw-bold">Saudáveis</h5>
+
+                <h5 className="fw-bold">
+                  Saudáveis
+                </h5>
+
                 <p className="text-muted mb-0">
                   Opções leves, práticas e equilibradas.
                 </p>
