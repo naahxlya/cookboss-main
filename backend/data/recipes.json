@@ -3,7 +3,7 @@
     "id": 1779244458805,
     "nome": "Panqueca",
     "categoria": "Café da manhã",
-    "tempo": "20 min",
+    "tempo": "25 min",
     "imagem": "https://via.placeholder.com/300"
   },
   {
@@ -12,5 +12,12 @@
     "categoria": "Massas",
     "tempo": "90 min",
     "imagem": "https://www.receitasnestle.com.br/receitas/receita-de-pizza-estilo-margherita"
+  },
+  {
+    "id": 1779247377006,
+    "nome": "Sopa de milho",
+    "categoria": "Sopas",
+    "tempo": "40 min",
+    "imagem": "https://www.estadao.com.br/paladar/prato-do-dia/sopa-de-milho-americana/?srsltid=AfmBOor42G8jMJDxjoDxELrPQDiUaGqjeMUqmz73a9kmjhCGeBLerjM5"
   }
 ]
