@@ -1,30 +1,23 @@
 [
   {
-    "id": 1779244458805,
+    "id": 1779349308021,
     "nome": "Panqueca",
     "categoria": "Café da manhã",
     "tempo": "25 min",
-    "imagem": "https://via.placeholder.com/300"
+    "imagem": "/uploads/1779349308017-panqueca.jpg"
   },
   {
-    "id": 1779245655748,
-    "nome": "Pizza",
-    "categoria": "Massas",
-    "tempo": "90 min",
-    "imagem": "https://www.receitasnestle.com.br/receitas/receita-de-pizza-estilo-margherita"
+    "id": 1779349563773,
+    "nome": "Batata recheada",
+    "categoria": "Assados",
+    "tempo": "50 min",
+    "imagem": "/uploads/1779349563769-batata.jpg"
   },
   {
-    "id": 1779247377006,
+    "id": 1779349611282,
     "nome": "Sopa de milho",
     "categoria": "Sopas",
     "tempo": "40 min",
-    "imagem": "https://www.estadao.com.br/paladar/prato-do-dia/sopa-de-milho-americana/?srsltid=AfmBOor42G8jMJDxjoDxELrPQDiUaGqjeMUqmz73a9kmjhCGeBLerjM5"
-  },
-  {
-    "id": 1779261519857,
-    "nome": "Batata recheada",
-    "categoria": "Assados",
-    "tempo": "70 min",
-    "imagem": "https://guiadacozinha.com.br/receitas/batata-recheada-de-micro-ondas/"
+    "imagem": "/uploads/1779349611278-SopadeMilho2 (1).jpg"
   }
 ]
