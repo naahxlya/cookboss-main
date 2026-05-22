@@ -116,3 +116,43 @@ footer {
   transform: translateY(-6px);
   box-shadow: 0 1rem 2rem rgba(80, 50, 0, 0.18) !important;
 }
+.recipe-card-image {
+  transition:
+    transform 0.3s ease,
+    filter 0.3s ease;
+}
+
+.card:hover .recipe-card-image {
+  transform: scale(1.05);
+  filter: brightness(0.92);
+}
+.form-select {
+  border-color: var(--border);
+  background-color: #ffffff;
+  color: var(--text-main);
+}
+
+.form-select:focus {
+  border-color: var(--button-bg);
+  box-shadow: 0 0 0 0.2rem rgba(247, 161, 14, 0.25);
+}
+.card-footer {
+  background-color: var(--bg-navbar) !important;
+  border-top: 1px solid var(--border);
+}
+.edit-recipe-actions .btn {
+  min-height: 52px;
+  border-radius: 1rem !important;
+  font-size: 1rem;
+  font-weight: 600 !important;
+  padding: 0.75rem 1.2rem;
+}
+
+.edit-recipe-actions .btn-outline-secondary,
+.edit-recipe-actions .btn-outline-danger {
+  border-width: 1.5px !important;
+}
+
+.edit-recipe-actions .btn:hover {
+  transform: translateY(-2px);
+}

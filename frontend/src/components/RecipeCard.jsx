@@ -4,6 +4,7 @@ import api from "../services/api";
 function RecipeCard({ recipe, onDelete }) {
 
   async function handleDelete() {
+
     const confirmDelete = window.confirm(
       "Deseja remover esta receita?"
     );
@@ -11,11 +12,15 @@ function RecipeCard({ recipe, onDelete }) {
     if (!confirmDelete) return;
 
     try {
-      await api.delete(`/recipes/${recipe.id}`);
+
+      await api.delete(
+        `/recipes/${recipe.id}`
+      );
 
       onDelete(recipe.id);
 
     } catch (error) {
+
       console.error(error);
 
       alert("Erro ao remover receita");
@@ -25,27 +30,42 @@ function RecipeCard({ recipe, onDelete }) {
   return (
     <div className="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
 
-      <img
-          src={
-            recipe.imagem
-              ? `http://localhost:3001${recipe.imagem}`
-              : "https://placehold.co/600x400/f1f1f1/999999?text=CookBoss"
-          }
+      <Link
+        to={`/recipe/${recipe.id}`}
+        className="text-decoration-none"
+      >
 
-          alt={recipe.nome}
-
-          className="card-img-top"
-
+        <div
           style={{
-            height: "220px",
-            objectFit: "cover",
+            overflow: "hidden",
           }}
+        >
 
-          onError={(e) => {
-            e.target.src =
-              "https://placehold.co/600x400/f1f1f1/999999?text=CookBoss";
-          }}
-        />
+          <img
+            src={
+              recipe.imagem
+                ? `http://localhost:3001${recipe.imagem}`
+                : "https://placehold.co/600x400/f1f1f1/999999?text=CookBoss"
+            }
+
+            alt={recipe.nome}
+
+            className="card-img-top recipe-card-image"
+
+            style={{
+              height: "220px",
+              objectFit: "cover",
+            }}
+
+            onError={(e) => {
+              e.target.src =
+                "https://placehold.co/600x400/f1f1f1/999999?text=CookBoss";
+            }}
+          />
+
+        </div>
+
+      </Link>
 
       <div className="card-body d-flex flex-column p-4">
 
@@ -57,9 +77,11 @@ function RecipeCard({ recipe, onDelete }) {
           to={`/recipe/${recipe.id}`}
           className="text-decoration-none"
         >
+
           <h5 className="fw-bold mb-2 text-warning">
             {recipe.nome}
           </h5>
+
         </Link>
 
         <p className="text-muted mb-4">
@@ -83,6 +105,7 @@ function RecipeCard({ recipe, onDelete }) {
           </button>
 
         </div>
+
       </div>
     </div>
   );

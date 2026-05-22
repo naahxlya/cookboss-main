@@ -1,11 +1,32 @@
-import { Link, useNavigate } from "react-router-dom";
+import {
+  Link,
+  useNavigate,
+} from "react-router-dom";
 
-function Navbar({ search, setSearch }) {
+import logo from "../assets/logo-horizontal.svg";
+
+function Navbar({
+  search,
+  setSearch,
+  user,
+  setUser,
+}) {
 
   const navigate = useNavigate();
 
+  function handleLogout() {
+
+    localStorage.removeItem(
+      "cookboss_user"
+    );
+
+    setUser(null);
+
+    navigate("/login");
+  }
+
   return (
-    <nav className="navbar navbar-expand-lg bg-white shadow-sm py-3">
+    <nav className="navbar navbar-expand-lg bg-white shadow-sm py-1">
 
       <div className="container">
 
@@ -13,7 +34,16 @@ function Navbar({ search, setSearch }) {
           className="navbar-brand fw-bold text-warning fs-3"
           to="/"
         >
-          🍳 CookBoss
+
+          <img
+            src={logo}
+            alt="CookBoss"
+            style={{
+              height: "60px",
+              objectFit: "contain",
+            }}
+          />
+
         </Link>
 
         <button
@@ -22,7 +52,9 @@ function Navbar({ search, setSearch }) {
           data-bs-toggle="collapse"
           data-bs-target="#navbarNav"
         >
+
           <span className="navbar-toggler-icon"></span>
+
         </button>
 
         <div
@@ -40,7 +72,9 @@ function Navbar({ search, setSearch }) {
 
               onChange={(e) => {
 
-                setSearch(e.target.value);
+                setSearch(
+                  e.target.value
+                );
 
                 navigate("/recipes");
               }}
@@ -83,10 +117,40 @@ function Navbar({ search, setSearch }) {
 
             </li>
 
+            {user && (
+
+              <>
+                <li className="nav-item">
+
+                  <Link
+                    className="nav-link fw-semibold"
+                    to="/profile"
+                  >
+                    Perfil
+                  </Link>
+
+                </li>
+
+                <li className="nav-item">
+
+                  <button
+                    className="btn btn-outline-warning rounded-pill px-4 fw-bold"
+                    onClick={handleLogout}
+                  >
+                    Sair
+                  </button>
+
+                </li>
+              </>
+
+            )}
+
           </ul>
 
         </div>
+
       </div>
+
     </nav>
   );
 }

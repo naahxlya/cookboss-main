@@ -39,6 +39,9 @@ exports.addRecipe = (req, res) => {
     categoria: req.body.categoria,
     tempo: req.body.tempo,
 
+    ingredientes: req.body.ingredientes,
+    modoPreparo: req.body.modoPreparo,
+
     imagem: req.file
       ? `/uploads/${req.file.filename}`
       : "",
@@ -62,6 +65,7 @@ exports.updateRecipe = (req, res) => {
   );
 
   if (index === -1) {
+
     return res.status(404).json({
       message: "Receita não encontrada",
     });
@@ -70,7 +74,9 @@ exports.updateRecipe = (req, res) => {
   const updatedRecipe = {
     ...recipes[index],
 
-    nome: req.body.nome || recipes[index].nome,
+    nome:
+      req.body.nome ||
+      recipes[index].nome,
 
     categoria:
       req.body.categoria ||
@@ -79,6 +85,14 @@ exports.updateRecipe = (req, res) => {
     tempo:
       req.body.tempo ||
       recipes[index].tempo,
+
+    ingredientes:
+      req.body.ingredientes ||
+      recipes[index].ingredientes,
+
+    modoPreparo:
+      req.body.modoPreparo ||
+      recipes[index].modoPreparo,
 
     imagem: req.file
       ? `/uploads/${req.file.filename}`

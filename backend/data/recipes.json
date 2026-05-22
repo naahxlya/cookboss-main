@@ -1,44 +1,92 @@
 [
   {
-    "id": 1779349308021,
-    "nome": "Panqueca",
-    "categoria": "Café da manhã",
-    "tempo": "25 min",
-    "imagem": "/uploads/1779349308017-panqueca.jpg"
-  },
-  {
     "id": 1779349563773,
     "nome": "Batata recheada",
     "categoria": "Assados",
     "tempo": "50 min",
-    "imagem": "/uploads/1779349563769-batata.jpg"
+    "imagem": "/uploads/1779349563769-batata.jpg",
+    "ingredientes": "4 batatas grandes (350 gramas cada)\r\nÁgua para cozinhar as batatas\r\n3 colheres de sopa de creme de queijo\r\n200 gramas de presunto\r\n200 gramas de queijo gouda\r\n150 gramas de bacon\r\n1 colher de chá de orégano (ou a gosto)\r\n2 colheres de sopa de cheiro-verde a gosto (cebolinha, salsinha e coentro) (ou a gosto)\r\nParmesão ralado para finalizar",
+    "modoPreparo": "1- Para cozinhar as batatas, lave-as e coloque-as na panela de pressão no fogo alto. Adicione a água, tampe e, quando pegar pressão, reduza o fogo. Conte 10-15 minutos e desligue o fogo. Deixe a pressão sair naturalmente. É importante não ultrapassar esse tempo, para elas não ficarem muito moles;\r\n3- Retire as batatas da água e transfira para um prato ou grade. Com elas na horizontal, utilize uma colher para remover a parte de cima e fazer uma cavidade (será o lugar do recheio). Mantenha as bordas e não retire mais do que o necessário para manter o presunto e o queijo dentro da batata;\r\n4- Em outro recipiente, amasse a parte retirada das batatas até formar um purê. Utilize um garfo ou um amassador;\r\n5- Depois, pique o presunto e, com um ralador, rale o queijo gouda. Adicione ambos na tigela com o purê e junte o creme de queijo e o orégano. Misture bem, experimente e acerte o sal conforme o seu paladar;\r\n6- Pegue a colher e recheie todas as batatas no espaço aberto até completar;\r\n7- Coloque as batatas recheadas em uma assadeira, adicione o queijo parmesão por cima e leve ao forno preaquecido a 180ºC por cerca de 10 minutos ou até gratinar (queijo derreter e formar crostinha);\r\n8- Enquanto isso, corte o bacon em cubinhos (se quiser, retire o couro para manter somente a parte da carne). Coloque óleo em uma panela e frite-o até ele ficar crocante. Reserve;\r\n9- Pique o cheiro verde finamente. Retire a assadeira do forno e finalize as batatas com os cubos de bacon fritos e a cebolinha, salsinha e coentro por cima;\r\n10- Sirva as batatas quentes. "
   },
   {
     "id": 1779349611282,
     "nome": "Sopa de milho",
     "categoria": "Sopas",
     "tempo": "40 min",
-    "imagem": "/uploads/1779349611278-SopadeMilho2 (1).jpg"
+    "imagem": "/uploads/1779349611278-SopadeMilho2 (1).jpg",
+    "ingredientes": "600 g de milho verde\r\n1 L e 100 ml de água\r\n1 tablete de caldo de legumes\r\n1 colher (chá) de sal\r\n3 dentes de alho\r\n50 ml de óleo\r\n100 g de cebola",
+    "modoPreparo": "1- Em uma panela, aqueça o óleo e refogue a cebola e o alho até dourar.\r\n2- Coloque o caldo de legumes e o milho verde na panela e refogue por mais 3 minutos.\r\n3- Acrescente a água e deixe ferver.\r\n4- Após isso, bata no liquidificador a metade do conteúdo da panela.\r\n5- Volte para o fogo com a outra metade não batida e deixe apurar.\r\n6- Corrija o sal e sirva."
   },
   {
     "id": 1779411369686,
-    "nome": "Bolo de cenoura",
+    "nome": "Bolo de cenoura com brigadeiro",
     "categoria": "Assados",
-    "tempo": "45 min",
-    "imagem": "/uploads/1779411369609-bolo-de-cenoura.jpeg"
+    "tempo": "70 min",
+    "imagem": "/uploads/1779411369609-bolo-de-cenoura.jpeg",
+    "ingredientes": "3 cenouras médias (250g)\r\n4 ovos\r\nmeia xícara (chá) de óleo\r\n2 e meia xícaras (chá) de farinha de trigo\r\n2 xícaras (chá) de açúcar\r\n1 Leite condensado (lata ou caixinha) 395g\r\n1 colher (sopa) de manteiga\r\nMeia xícara (chá) de Chocolate em Pó \r\n1 colher (sopa) de fermento em pó",
+    "modoPreparo": "Massa:\r\n1- Em um liquidificador, adicione a cenoura, os ovos e o óleo, depois misture.\r\n2- Acrescente o açúcar e bata novamente por 5 minutos.\r\n3- Em uma tigela ou na batedeira, adicione a farinha de trigo e depois misture novamente.\r\n4- Acrescente o fermento e misture lentamente com uma colher.\r\n5- Asse em um forno preaquecido a 180° C por aproximadamente 40 minutos.\r\n\r\nCobertura: \r\n6- Despeje em uma tigela a manteiga, o chocolate em pó, o açúcar e o leite, depois misture.\r\n7- Leve a mistura ao fogo e continue misturando até obter uma consistência cremosa, depois despeje a calda por cima do bolo."
   },
   {
     "id": 1779411688860,
     "nome": "Torta de maçã",
     "categoria": "Assados",
     "tempo": "80 min",
-    "imagem": "/uploads/1779411688851-torta-de-maca-aquarius-960x540.jpg"
+    "imagem": "/uploads/1779411688851-torta-de-maca-aquarius-960x540.jpg",
+    "ingredientes": "Massa:\r\n150 g de manteiga gelada\r\nmeia xícara (chá) de açúcar\r\n3 gemas\r\n1 pitada de sal\r\n1 colher (sopa) de essência de baunilha\r\n1 e meia xícara (chá) de farinha de trigo (peneirada)\r\n\r\nCreme:\r\n1 e meia xícara (chá) de leite integral\r\n2 gemas\r\n1 Leite condensado (lata ou caixinha) 395g\r\n1 colher (sopa) de amido de milho\r\n1 colher (chá) de essência de baunilha\r\n\r\nCobertura:\r\n4 maçãs em fatias finas\r\n3 colheres (sopa) de açúcar\r\n1 colher (chá) de canela em pó",
+    "modoPreparo": "Massa:\r\n1- Em um recipiente, misture a manteiga com o açúcar e adicione as gemas, o sal e a essência de baunilha.\r\n2- Misture bem com a ponta dos dedos até que os ingredientes estejam bem incorporados.\r\n3- Junte a farinha de trigo aos poucos até obter uma massa homogênea, que desgrude das mãos. Faça uma bola e enrole em filme plástico.\r\n4- Reserve na geladeira por cerca de 30 minutos.\r\n\r\nCreme:\r\n5- Em uma panela pequena, adicione o leite, as gemas, o leite condensado, o amido de milho e a essência de baunilha. Misture bem e leve ao fogo.\r\n6- Quando iniciar a fervura, abaixe o fogo e deixe cozinhar por cerca de 5 minutos. Reserve.\r\n\r\nCobertura:\r\n7- Em um recipiente, misture as maçãs, o açúcar e a canela e reserve.\r\n\r\nMontagem:\r\n8- Em uma superfície polvilhada com farinha de trigo, abra a massa, com auxílio de um rolo, e cubra uma forma de aro removível (24 cm de diâmetro) e coloque o creme reservado no fundo.\r\n9- Distribua as maçãs reservadas em círculos, formando uma flor. Leve ao forno médio-alto (200°C), preaquecido, por cerca de 30 minutos ou até que a massa esteja dourada e as maçãs cozidas."
   },
   {
     "id": 1779411898695,
     "nome": "Omelete de liquidificador",
     "categoria": "Café da manhã",
+    "tempo": "25 min",
+    "imagem": "/uploads/1779411898678-360_F_157806067_w97qwvJkwyU2PoVALDTkTckOELXH80Nu.jpg",
+    "ingredientes": "1 colher (chá) de azeite\r\n5 ovos\r\n3 colheres (sopa) óleo\r\n2 colheres (sopa) rasas de farinha de trigo\r\n1 colher (sopa) de queijo parmesão ralado\r\n1 colher (café) de alho amassado\r\n1 xícara (chá) de presunto em cubos\r\n1 tomate picado sem sementes\r\n1/2 xícara (chá) de azeitonas verdes em rodelas\r\nSal, pimenta-do-reino e cheiro-verde picado a gosto",
+    "modoPreparo": "1- Em uma frigideira antiaderente, coloque o azeite e reserve.\r\n2- No liquidificador, bata os ovos, o óleo, a farinha, o parmesão e o alho até ficar homogêneo.\r\n3- Despeje em uma tigela, adicione o presunto, o tomate, a azeitona, sal, pimenta, cheiro-verde e misture.\r\n4- Leve a frigideira ao fogo médio e despeje metade da mistura, dourando dos dois lados.\r\n5- Repita o procedimento com o restante da massa e sirva."
+  },
+  {
+    "id": 1779415377905,
+    "nome": "Panqueca Americana",
+    "categoria": "Café da manhã",
     "tempo": "15 min",
-    "imagem": "/uploads/1779411898678-360_F_157806067_w97qwvJkwyU2PoVALDTkTckOELXH80Nu.jpg"
+    "ingredientes": "1 e 1/4 xícara (chá) de farinha de trigo\r\n1 colher (sopa) de açúcar\r\n3 colheres (chá) de fermento em pó\r\n2 ovos levemente batidos\r\n1 xícara (chá) de leite\r\n2 colheres (sopa) de manteiga derretida\r\nPitada de sal\r\nÓleo",
+    "modoPreparo": "1- Misture em um recipiente: a farinha, o açúcar, o fermento e o sal.\r\n2- Em outro recipiente, misture os ovos, o leite e a manteiga.\r\n3- Acrescente os líquidos aos secos, sem misturar em excesso.\r\n4- O ponto da massa não deve ser muito líquido, deve escorrer lentamente.\r\n5- Aqueça e unte a frigideira com óleo, coloque a massa no centro, cerca de 1/4 xícara por panqueca.\r\n6- Vire a massa para assar do outro lado e está pronto!",
+    "imagem": "/uploads/1779420749062-panq.jpg"
+  },
+  {
+    "id": 1779420304026,
+    "nome": "Salada Caesar",
+    "categoria": "Saudáveis",
+    "tempo": "35 min",
+    "ingredientes": "3 peitos de frango;\r\nSuco de meio limão;\r\n1 colher de sopa de azeite;\r\n1 alface americana;\r\n50g de croutons;\r\n50g de queijo parmesão ralado grosso.\r\n\r\nMolho;\r\n1 xícara de chá de maionese;\r\n¼ de xícara de chá de parmesão ralado fino;\r\n1 dente de alho;\r\n3 colheres de sopa de mostarda;\r\nSuco de ½ limão;\r\nSal a gosto.",
+    "modoPreparo": "1- Tempere os filés de frango com suco de limão, sal e deixe marinando na geladeira por pelo menos 30 minutos.\r\n2- Em um mini processador, coloque todos os ingredientes do molho e bata bem até ficar cremoso. 3- Mantenha na geladeira até o momento de servir.\r\n4- Unte a Grelha Quadrada Signature com azeite usando um pincel e grelhe os filés de frango até estarem bem dourados. Após grelhar, corte os filés em tiras.\r\n5- Em um bowl redondo, misture a alface picada com o molho. Em seguida, adicione o parmesão, os croutons e acomode as tiras de frango por cima.",
+    "imagem": "/uploads/1779420303991-salada.jpg"
+  },
+  {
+    "id": 1779420671386,
+    "nome": "Mojito de melancia",
+    "categoria": "Bebidas",
+    "tempo": "20 min",
+    "ingredientes": "5 cubos de melancia\r\n2 folhas de hortelã\r\n1 rodela de limão\r\n4 cubos de gelo (ou mais, se quiser)\r\n150 ml de refrigerante de limão ou água com gás\r\nsuco de limão espremido (opcional)",
+    "modoPreparo": "1- Passe uma rodela de limão pela borda e depois passe em um prato com açúcar cristal (também pode ser sal, mas nessa receita o açúcar é melhor) que ele vai grudar.\r\n2- Coloque a melancia já em cubos e sem sementes dentro de um copo largo. Se seus copos forem mais compridos e estreitos, prepare em outro recipiente e sirva depois.\r\n3- Adicione as duas folhas de hortelã e uma rodela de limão, com casca e tudo.\r\n4- Amasse tudo para as frutas começarem a desmanchar e extrair o suco e o sabor deles. \r\n5- Acrescente os cubos de gelo.\r\n6- Complete o copo com o refrigerante de limão ou a água com gás até a borda. Se for usar água, o ideal é colocar mais uma rodela de limão ou espremer algumas gotas do suco da fruta para dar mais sabor do limão.\r\nSe quiser pode finalizar decorando com uma rodela de limão na borda e um canudo colorido.\r\nBeba bem gelado!",
+    "imagem": "/uploads/1779420671379-70a4a9d32f4410163273b4abee22.jpg"
+  },
+  {
+    "id": 1779420933015,
+    "nome": "Focaccia sem sova",
+    "categoria": "Diversos",
+    "tempo": "120 min",
+    "ingredientes": "3¼ de xícaras (chá) de farinha de trigo\r\n½ colher (chá) de fermento biológico seco instantâneo\r\n2 colheres (chá) de sal\r\n1¾ de xícara (chá) de água morna\r\n4 colheres (sopa) de azeite\r\n½ colher (chá) de sal grosso",
+    "modoPreparo": "1- Numa tigela grande, misture a farinha com o fermento e o sal. Junte a água morna de uma só vez e misture bem com uma espátula de silicone. Não é necessário sovar; apenas misture até que a farinha absorva toda a água. A massa ficará grudenta — é assim mesmo, não adicione mais farinha. Atenção à temperatura da água: ela deve estar apenas morna para dar início à fermentação, que acontecerá na geladeira; se a água estiver muito quente, poderá inativar o fermento.\r\n2- Coloque 2 colheres (sopa) de azeite numa tigela grande o suficiente para a massa poder crescer e dobrar de volume. Transfira a massa para a tigela com o azeite, raspando bem com a espátula de silicone. Com a espátula, vire a massa de baixo para cima, para que fique besuntada com o azeite Não é preciso que o azeite seja incorporado à massa, apenas que cubra a superfície.\r\n3- Cubra a tigela com filme para que a massa não resseque — se preferir, use uma tigela com tampa. Leve à geladeira e deixe por, no mínimo, 12 horas e, no máximo, 36 horas. A massa vai fermentar lentamente, e a grande quantidade de água vai fazer com que o glúten se desenvolva sem a necessidade de sova.\r\n4- Passado o tempo de fermentação, transfira a massa para uma assadeira antiaderente de 30 cm × 20 cm — se sua assadeira não for antiaderente, regue o fundo com 1 colher (sopa) de azeite. Com as mãos (ou com a espátula), espalhe a massa no fundo da assadeira. Ela não precisa ser esticada para ocupar certinho toda a área, pois vai crescer um pouco mais e se acomodar na assadeira.\r\n5- Cubra com um pano e deixe a massa descansar por 50 minutos. Ela precisa estar em temperatura ambiente e aerada antes de entrar no forno.\r\n6- Quando faltarem 30 minutos de descanso, preaqueça o forno a 220 °C (temperatura alta). Bata o sal grosso no pilão, apenas para que se quebre em pedaços menores (não é para ele virar pó).\r\n7- Passado o tempo de descanso, umedeça a ponta dos dedos com água e pressione a massa sem perfurar nem rasgar. Regue a focaccia com 2 colheres (sopa) de azeite e polvilhe o sal grosso batido.\r\n8- Leve ao forno para assar por 15 minutos a 220 ºC (temperatura alta), até que infle e comece a dourar nas bordas. Abaixe a temperatura para 200 ºC (temperatura média) e deixe a massa terminar de assar por mais 20 minutos, ou até dourar.\r\n9- Retire a focaccia do forno e transfira para uma gradinha (ou coloque sobre a grade do fogão) para que amorne antes de cortar. Sirva a seguir.",
+    "imagem": "/uploads/1779420933006-receita-de-focaccia-perfeita-min.jpg"
+  },
+  {
+    "id": 1779425125462,
+    "nome": "Guacamole",
+    "categoria": "Diversos",
+    "tempo": "10 min",
+    "ingredientes": "4 abacates maduros\r\n1 tomate maduro\r\nCaldo de 1 limão\r\n2 colheres (sopa) de azeite\r\nCoentro picado a gosto\r\nSal e pimenta-do-reino moída na hora a gosto",
+    "modoPreparo": "1- Lave e seque os abacates, o tomate e o coentro. Com a faca, corte o abacate ao meio, no sentido do comprimento, e descarte o caroço. Descasque, corte cada metade em cubos e transfira para uma tigela.\r\n2- Regue o avocado com o caldo de limão e amasse com um garfo até formar um purê rústico.\r\n3- Corte o tomate ao meio, descarte as sementes, e corte as metades em cubos pequenos. Pique grosseiramente as folhas de coentro. Junte ao avocado amassado, tempere com o azeite, sal e pimenta a gosto. Misture bem e sirva imediatamente.",
+    "imagem": "/uploads/1779425125431-Guacamole-Autentico-1.jpeg"
   }
 ]
