@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import api from "../services/api";
 import RecipeCard from "../components/RecipeCard";
 
-function Recipes() {
+function Recipes({ search }) {
+
   const [recipes, setRecipes] = useState([]);
 
   useEffect(() => {
@@ -11,15 +12,21 @@ function Recipes() {
   }, []);
 
   async function loadRecipes() {
+
     try {
+
       const response = await api.get("/recipes");
+
       setRecipes(response.data);
+
     } catch (error) {
+
       console.error(error);
     }
   }
 
   function handleDelete(id) {
+
     setRecipes((prevRecipes) =>
       prevRecipes.filter(
         (recipe) => recipe.id !== id
@@ -27,10 +34,18 @@ function Recipes() {
     );
   }
 
+  const filteredRecipes = recipes.filter(
+    (recipe) =>
+      recipe.nome
+        .toLowerCase()
+        .includes(search.toLowerCase())
+  );
+
   return (
     <main className="container py-5">
 
       <div className="text-center mb-5">
+
         <span className="text-warning fw-bold">
           CookBoss
         </span>
@@ -38,9 +53,11 @@ function Recipes() {
         <h2 className="fw-bold mb-0">
           🍲 Todas as Receitas
         </h2>
+
       </div>
 
       {recipes.length === 0 ? (
+
         <div className="text-center bg-warning bg-opacity-25 rounded-5 p-5">
 
           <h3 className="fw-bold">
@@ -59,22 +76,29 @@ function Recipes() {
           </Link>
 
         </div>
+
       ) : (
+
         <div className="row g-4">
 
-          {recipes.map((recipe) => (
+          {filteredRecipes.map((recipe) => (
+
             <div
               className="col-12 col-md-6 col-lg-4"
               key={recipe.id}
             >
+
               <RecipeCard
                 recipe={recipe}
                 onDelete={handleDelete}
               />
+
             </div>
+
           ))}
 
         </div>
+
       )}
 
     </main>

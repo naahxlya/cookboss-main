@@ -19,5 +19,26 @@
     "categoria": "Sopas",
     "tempo": "40 min",
     "imagem": "/uploads/1779349611278-SopadeMilho2 (1).jpg"
+  },
+  {
+    "id": 1779411369686,
+    "nome": "Bolo de cenoura",
+    "categoria": "Assados",
+    "tempo": "45 min",
+    "imagem": "/uploads/1779411369609-bolo-de-cenoura.jpeg"
+  },
+  {
+    "id": 1779411688860,
+    "nome": "Torta de maçã",
+    "categoria": "Assados",
+    "tempo": "80 min",
+    "imagem": "/uploads/1779411688851-torta-de-maca-aquarius-960x540.jpg"
+  },
+  {
+    "id": 1779411898695,
+    "nome": "Omelete de liquidificador",
+    "categoria": "Café da manhã",
+    "tempo": "15 min",
+    "imagem": "/uploads/1779411898678-360_F_157806067_w97qwvJkwyU2PoVALDTkTckOELXH80Nu.jpg"
   }
 ]
