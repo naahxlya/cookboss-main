@@ -2,8 +2,13 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../services/api";
 import RecipeCard from "../components/RecipeCard";
+import logo from "../assets/logo.svg";
 
-function Recipes({ search }) {
+
+function Recipes({
+  search,
+  selectedCategory,
+}) {
 
   const [recipes, setRecipes] = useState([]);
 
@@ -35,37 +40,78 @@ function Recipes({ search }) {
   }
 
   const filteredRecipes = recipes.filter(
-    (recipe) =>
+    (recipe) => {
+
+      const matchesSearch =
+
       recipe.nome
         .toLowerCase()
         .includes(search.toLowerCase())
+
+      ||
+
+      recipe.categoria
+        .toLowerCase()
+        .includes(search.toLowerCase());
+
+      const matchesCategory =
+        selectedCategory === ""
+          ? true
+          : recipe.categoria === selectedCategory;
+
+      return (
+        matchesSearch &&
+        matchesCategory
+      );
+    }
   );
 
   return (
-    <main className="container py-5">
+    <main className="container py-1">
 
       <div className="text-center mb-5">
 
-        <span className="text-warning fw-bold">
-          CookBoss
-        </span>
+        <img
+          src={logo}
+          alt="CookBoss"
+          style={{
+            height: "80px",
+            objectFit: "contain",
+          }}
+        />
 
         <h2 className="fw-bold mb-0">
           🍲 Todas as Receitas
         </h2>
 
+        {selectedCategory && (
+
+          <p className="text-muted mt-3">
+
+            Categoria selecionada:
+            <span className="fw-bold text-warning ms-2">
+              {selectedCategory}
+            </span>
+
+          </p>
+
+        )}
+
       </div>
 
-      {recipes.length === 0 ? (
+      {filteredRecipes.length === 0 ? (
 
-        <div className="text-center bg-warning bg-opacity-25 rounded-5 p-5">
+        <div className="text-center card-footer bg-opacity-25 rounded-5 p-5">
 
           <h3 className="fw-bold">
-            Nenhuma receita cadastrada ainda
+            Nenhuma receita encontrada
           </h3>
 
           <p className="text-muted mb-4">
-            Comece adicionando sua primeira receita ao CookBoss.
+
+            Tente buscar outro nome
+            ou categoria.
+
           </p>
 
           <Link

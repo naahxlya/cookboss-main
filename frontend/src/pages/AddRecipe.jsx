@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
+import categories from "../data/categories";
 
 function AddRecipe() {
 
@@ -11,9 +12,12 @@ function AddRecipe() {
     categoria: "",
     tempo: "",
     imagem: "",
+    ingredientes: "",
+    modoPreparo: "",
   });
 
   function handleChange(e) {
+
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -26,8 +30,8 @@ function AddRecipe() {
 
     if (!file) return;
 
-    if (file.size > 2 * 1024 * 1024) {
-      alert("Escolha uma imagem menor que 2MB");
+    if (file.size > 500 * 1024) {
+      alert("Escolha uma imagem menor que 500KB");
       return;
     }
 
@@ -38,26 +42,44 @@ function AddRecipe() {
   }
 
   function removeImage() {
-    setFormData((prev) => ({
-      ...prev,
+
+    setFormData({
+      ...formData,
       imagem: "",
-    }));
+    });
   }
 
   async function handleSubmit(e) {
+
     e.preventDefault();
+
     try {
 
       const data = new FormData();
+
       data.append("nome", formData.nome);
       data.append("categoria", formData.categoria);
       data.append("tempo", formData.tempo);
 
-      if (formData.imagem) {
+      data.append(
+        "ingredientes",
+        formData.ingredientes
+      );
+
+      data.append(
+        "modoPreparo",
+        formData.modoPreparo
+      );
+
+      if (formData.imagem instanceof File) {
         data.append("imagem", formData.imagem);
       }
 
-      await api.post("/recipes", data);
+      await api.post(
+        "/recipes",
+        data
+      );
+
       alert("Receita adicionada com sucesso!");
 
       navigate("/recipes");
@@ -71,7 +93,7 @@ function AddRecipe() {
   }
 
   return (
-    <div className="container py-5">
+    <div className="container py-1">
 
       <div className="row justify-content-center">
 
@@ -110,14 +132,30 @@ function AddRecipe() {
                     Categoria
                   </label>
 
-                  <input
-                    type="text"
+                  <select
                     name="categoria"
-                    className="form-control form-control-lg"
+                    className="form-select form-select-lg"
                     value={formData.categoria}
                     onChange={handleChange}
                     required
-                  />
+                  >
+
+                    <option value="" disabled>
+                      Selecione uma categoria
+                    </option>
+
+                    {categories.map((category) => (
+
+                      <option
+                        key={category}
+                        value={category}
+                      >
+                        {category}
+                      </option>
+
+                    ))}
+
+                  </select>
 
                 </div>
 
@@ -133,6 +171,42 @@ function AddRecipe() {
                     className="form-control form-control-lg"
                     value={formData.tempo}
                     onChange={handleChange}
+                    required
+                  />
+
+                </div>
+
+                <div className="mb-4">
+
+                  <label className="form-label fw-semibold">
+                    Ingredientes
+                  </label>
+
+                  <textarea
+                    name="ingredientes"
+                    className="form-control form-control-lg"
+                    rows="5"
+                    value={formData.ingredientes}
+                    onChange={handleChange}
+                    placeholder="Digite um ingrediente por linha"
+                    required
+                  />
+
+                </div>
+
+                <div className="mb-4">
+
+                  <label className="form-label fw-semibold">
+                    Modo de Preparo
+                  </label>
+
+                  <textarea
+                    name="modoPreparo"
+                    className="form-control form-control-lg"
+                    rows="6"
+                    value={formData.modoPreparo}
+                    onChange={handleChange}
+                    placeholder="Descreva o passo a passo da receita"
                     required
                   />
 
@@ -157,8 +231,9 @@ function AddRecipe() {
 
                   <img
                     src={
-                      formData.imagem ||
-                      "https://placehold.co/600x400/f1f1f1/999999?text=CookBoss"
+                      formData.imagem instanceof File
+                        ? URL.createObjectURL(formData.imagem)
+                        : "https://placehold.co/600x400/f1f1f1/999999?text=CookBoss"
                     }
 
                     alt="Preview da receita"
@@ -169,11 +244,6 @@ function AddRecipe() {
                       maxHeight: "260px",
                       width: "100%",
                       objectFit: "cover",
-                    }}
-
-                    onError={(e) => {
-                      e.target.src =
-                        "https://placehold.co/600x400/f1f1f1/999999?text=CookBoss";
                     }}
                   />
 

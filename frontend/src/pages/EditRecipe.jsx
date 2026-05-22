@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../services/api";
+import categories from "../data/categories";
 
 function EditRecipe() {
 
@@ -13,6 +14,8 @@ function EditRecipe() {
     categoria: "",
     tempo: "",
     imagem: "",
+    ingredientes: "",
+    modoPreparo: "",
   });
 
   useEffect(() => {
@@ -81,11 +84,29 @@ function EditRecipe() {
       const data = new FormData();
 
       data.append("nome", formData.nome);
-      data.append("categoria", formData.categoria);
+
+      data.append(
+        "categoria",
+        formData.categoria
+      );
+
       data.append("tempo", formData.tempo);
 
+      data.append(
+        "ingredientes",
+        formData.ingredientes
+      );
+
+      data.append(
+        "modoPreparo",
+        formData.modoPreparo
+      );
+
       if (formData.imagem instanceof File) {
-        data.append("imagem", formData.imagem);
+        data.append(
+          "imagem",
+          formData.imagem
+        );
       }
 
       await api.put(
@@ -106,7 +127,7 @@ function EditRecipe() {
   }
 
   return (
-    <div className="container py-5">
+    <div className="container py-1">
 
       <div className="row justify-content-center">
 
@@ -145,11 +166,44 @@ function EditRecipe() {
                     Categoria
                   </label>
 
+                  <select
+                    name="categoria"
+                    className="form-select form-select-lg"
+                    value={formData.categoria}
+                    onChange={handleChange}
+                    required
+                  >
+
+                    <option value="" disabled>
+                      Selecione uma categoria
+                    </option>
+
+                    {categories.map((category) => (
+
+                      <option
+                        key={category}
+                        value={category}
+                      >
+                        {category}
+                      </option>
+
+                    ))}
+
+                  </select>
+
+                </div>
+
+                <div className="mb-4">
+
+                  <label className="form-label fw-semibold">
+                    Tempo de Preparo
+                  </label>
+
                   <input
                     type="text"
-                    name="categoria"
+                    name="tempo"
                     className="form-control form-control-lg"
-                    value={formData.categoria}
+                    value={formData.tempo}
                     onChange={handleChange}
                     required
                   />
@@ -159,15 +213,34 @@ function EditRecipe() {
                 <div className="mb-4">
 
                   <label className="form-label fw-semibold">
-                    Tempo
+                    Ingredientes
                   </label>
 
-                  <input
-                    type="text"
-                    name="tempo"
+                  <textarea
+                    name="ingredientes"
                     className="form-control form-control-lg"
-                    value={formData.tempo}
+                    rows="5"
+                    value={formData.ingredientes}
                     onChange={handleChange}
+                    placeholder="Digite um ingrediente por linha"
+                    required
+                  />
+
+                </div>
+
+                <div className="mb-4">
+
+                  <label className="form-label fw-semibold">
+                    Modo de Preparo
+                  </label>
+
+                  <textarea
+                    name="modoPreparo"
+                    className="form-control form-control-lg"
+                    rows="6"
+                    value={formData.modoPreparo}
+                    onChange={handleChange}
+                    placeholder="Descreva o passo a passo da receita"
                     required
                   />
 
@@ -217,10 +290,18 @@ function EditRecipe() {
 
                 </div>
 
-                <div className="d-grid gap-3">
+                <div className="d-flex gap-3 edit-recipe-actions">
 
-                  <button className="btn btn-warning btn-lg fw-bold">
+                  <button className="btn btn-warning btn-lg fw-bold flex-fill">
                     Salvar Alterações
+                  </button>
+
+                  <button
+                    type="button"
+                    className="btn btn-outline-secondary btn-lg fw-bold flex-fill"
+                    onClick={() => navigate("/recipes")}
+                  >
+                    Cancelar
                   </button>
 
                   <button
