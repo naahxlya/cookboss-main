@@ -46,18 +46,18 @@ function RecipeDetails() {
   }
 
   return (
-    <main className="container py-5">
-
-      <button
-        className="btn btn-outline-warning rounded-pill mb-4"
-        onClick={() => navigate("/recipes")}
-      >
-        ← Voltar
-      </button>
+    <main className="container py-1">
 
       <div className="card border-0 shadow-lg rounded-5 overflow-hidden">
 
         <div className="p-4 p-lg-5">
+
+           <button
+            className="btn btn-outline-warning rounded-pill mb-4"
+            onClick={() => navigate("/recipes")}
+          >
+            <i class="bi bi-arrow-left-short m-1"></i>
+          </button>
 
           <div className="text-center mb-5">
 
@@ -98,7 +98,8 @@ function RecipeDetails() {
             </h1>
 
             <p className="fs-5 text-muted">
-              ⏱ Tempo de preparo: {recipe.tempo}
+              <i class="bi bi-stopwatch m-1"></i> 
+              Tempo de preparo: {recipe.tempo}
             </p>
 
           </div>

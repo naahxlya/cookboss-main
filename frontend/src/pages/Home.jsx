@@ -80,7 +80,8 @@ function Home({ setSelectedCategory }) {
 
           <div className="col-lg-6">
             <span className="badge bg-warning text-dark rounded-pill px-3 py-2 mb-3">
-               🍳 Seu livro de receitas digital
+               <i class="bi bi-journals m-1"></i>
+                Seu livro de receitas digital
             </span>
 
             <h1 className="display-4 fw-bold mb-4">
@@ -98,6 +99,7 @@ function Home({ setSelectedCategory }) {
                 to="/recipes"
                 className="btn btn-warning btn-lg rounded-pill px-5 fw-bold"
               >
+                <i class="bi bi-egg-fried m-1"></i>
                 Ver Receitas
               </Link>
 
@@ -105,7 +107,7 @@ function Home({ setSelectedCategory }) {
                 to="/add"
                 className="btn btn-outline-warning btn-lg rounded-pill px-5 fw-bold"
               >
-                <i class="bi bi-file-plus-fill"></i>
+                <i class="bi bi-plus m-1"></i>
                 Nova Receita
               </Link>
 
@@ -220,6 +222,7 @@ function Home({ setSelectedCategory }) {
             to="/add"
             className="btn btn-warning rounded-pill px-5 fw-bold"
           >
+            <i class="bi bi-plus m-1"></i>
             Cadastrar minha primeira receita
           </Link>
 

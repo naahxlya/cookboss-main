@@ -126,6 +126,7 @@ function Navbar({
                     className="nav-link fw-semibold"
                     to="/profile"
                   >
+                    <i class="bi bi-file-person-fill m-1"></i>
                     Perfil
                   </Link>
 
@@ -134,9 +135,10 @@ function Navbar({
                 <li className="nav-item">
 
                   <button
-                    className="btn btn-outline-warning rounded-pill px-4 fw-bold"
+                    className="nav-link fw-semibold"
                     onClick={handleLogout}
                   >
+                    <i class="bi bi-box-arrow-right m-1"></i>
                     Sair
                   </button>
 

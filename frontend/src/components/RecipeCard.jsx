@@ -85,7 +85,8 @@ function RecipeCard({ recipe, onDelete }) {
         </Link>
 
         <p className="text-muted mb-4">
-          ⏱ {recipe.tempo}
+          <i class="bi bi-stopwatch m-1"></i> 
+          {recipe.tempo}
         </p>
 
         <div className="d-flex gap-2 mt-auto">

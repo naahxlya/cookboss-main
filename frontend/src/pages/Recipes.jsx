@@ -81,7 +81,8 @@ function Recipes({
         />
 
         <h2 className="fw-bold mb-0">
-          🍲 Todas as Receitas
+          <i class="bi bi-fork-knife m-2"></i>
+          Todas as Receitas
         </h2>
 
         {selectedCategory && (
