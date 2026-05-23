@@ -105,6 +105,7 @@ function Home({ setSelectedCategory }) {
                 to="/add"
                 className="btn btn-outline-warning btn-lg rounded-pill px-5 fw-bold"
               >
+                <i class="bi bi-file-plus-fill"></i>
                 Nova Receita
               </Link>
 
