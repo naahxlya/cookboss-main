@@ -117,7 +117,7 @@ function Navbar({
 
             </li>
 
-            {user && (
+            {user ? (
 
               <>
                 <li className="nav-item">
@@ -142,6 +142,19 @@ function Navbar({
 
                 </li>
               </>
+
+            ) : (
+
+              <li className="nav-item">
+
+                <Link
+                  className="btn btn-outline-warning rounded-pill px-4 fw-bold"
+                  to="/login"
+                >
+                  Entrar
+                </Link>
+
+              </li>
 
             )}
 

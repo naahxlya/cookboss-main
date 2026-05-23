@@ -1,20 +1,27 @@
-const express = require("express");
+require("dotenv").config();
 
-const cors = require("cors");
+const express =
+  require("express");
 
-const path = require("path");
+const cors =
+  require("cors");
 
-const db = require("./database/connection");
+const path =
+  require("path");
+
+const db =
+  require("./database/connection");
 
 require("./database/init");
 
-const recipeRoutes = require(
-  "./routes/recipes"
-);
+const recipeRoutes =
+  require("./routes/recipes");
 
-const authRoutes = require(
-  "./routes/auth"
-);
+const authRoutes =
+  require("./routes/auth");
+
+const passwordRoutes =
+  require("./routes/password");
 
 const app = express();
 
@@ -30,8 +37,12 @@ app.use(
 
 app.use(
   "/uploads",
+
   express.static(
-    path.join(__dirname, "uploads")
+    path.join(
+      __dirname,
+      "uploads"
+    )
   )
 );
 
@@ -43,6 +54,11 @@ app.use(
 app.use(
   "/auth",
   authRoutes
+);
+
+app.use(
+  "/password",
+  passwordRoutes
 );
 
 const PORT = 3001;

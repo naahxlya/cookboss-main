@@ -34,15 +34,25 @@ exports.forgotPassword = (
         100000 + Math.random() * 900000
       ).toString();
 
+      const expiresAt =
+        new Date(
+          Date.now() +
+          1000 * 60 * 10
+        ).toISOString();
+
       db.run(
         `
         INSERT INTO password_resets
-        (email, code)
-        VALUES (?, ?)
+        (email, code, expires_at)
+        VALUES (?, ?, ?)
         `,
-        [email, code]
+        [
+          email,
+          code,
+          expiresAt,
+        ]
       );
-
+      
       await transporter.sendMail({
 
         from:

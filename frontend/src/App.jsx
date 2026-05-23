@@ -27,6 +27,11 @@ import RecipeDetails from "./pages/RecipeDetails";
 import Register from "./pages/Register";
 
 import Login from "./pages/Login";
+import ForgotPassword from "./pages/ForgotPassword";
+
+import VerifyCode from "./pages/VerifyCode";
+
+import ResetPassword from "./pages/ResetPassword";
 
 function AppContent() {
 
@@ -43,9 +48,18 @@ function AppContent() {
 
   const location = useLocation();
 
+  const hiddenRoutes = [
+  "/login",
+  "/register",
+  "/forgot-password",
+  "/verify-code",
+  "/reset-password",
+  ];
+
   const hideNavbar =
-    location.pathname === "/login" ||
-    location.pathname === "/register";
+    hiddenRoutes.includes(
+      location.pathname
+    );
 
   useEffect(() => {
 
@@ -80,6 +94,21 @@ function AppContent() {
       <div className="container mt-4">
 
         <Routes>
+
+          <Route
+            path="/forgot-password"
+            element={<ForgotPassword />}
+          />
+
+          <Route
+            path="/verify-code"
+            element={<VerifyCode />}
+          />
+
+          <Route
+            path="/reset-password"
+            element={<ResetPassword />}
+          />
 
           <Route
             path="/login"

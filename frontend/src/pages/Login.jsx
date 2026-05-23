@@ -1,23 +1,29 @@
 import { useState } from "react";
 
-import { Link, useNavigate } from "react-router-dom";
+import {
+  Link,
+  useNavigate,
+} from "react-router-dom";
 
 import api from "../services/api";
 
 function Login({ setUser }) {
 
-  const navigate = useNavigate();
+  const navigate =
+    useNavigate();
 
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
+  const [formData, setFormData] =
+    useState({
+      email: "",
+      password: "",
+    });
 
   function handleChange(e) {
 
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [e.target.name]:
+        e.target.value,
     });
   }
 
@@ -27,17 +33,27 @@ function Login({ setUser }) {
 
     try {
 
-      const response = await api.post(
-        "/auth/login",
-        formData
-      );
+      const response =
+        await api.post(
+          "/auth/login",
+          formData
+        );
 
       localStorage.setItem(
         "cookboss_user",
-        JSON.stringify(response.data.user)
+
+        JSON.stringify(
+          response.data.user
+        )
       );
 
-      alert(response.data.message);
+      setUser(
+        response.data.user
+      );
+
+      alert(
+        response.data.message
+      );
 
       navigate("/");
 
@@ -46,14 +62,15 @@ function Login({ setUser }) {
       console.error(error);
 
       alert(
-        error.response?.data?.message ||
+        error.response?.data
+          ?.message ||
         "Erro ao fazer login"
       );
     }
   }
 
   return (
-    <main className="container py-5">
+    <main className="container py-1">
 
       <div className="row justify-content-center">
 
@@ -89,7 +106,9 @@ function Login({ setUser }) {
                     className="form-control form-control-lg rounded-4"
                     placeholder="Digite seu email"
                     value={formData.email}
-                    onChange={handleChange}
+                    onChange={
+                      handleChange
+                    }
                     required
                   />
 
@@ -106,8 +125,12 @@ function Login({ setUser }) {
                     name="password"
                     className="form-control form-control-lg rounded-4"
                     placeholder="Digite sua senha"
-                    value={formData.password}
-                    onChange={handleChange}
+                    value={
+                      formData.password
+                    }
+                    onChange={
+                      handleChange
+                    }
                     required
                   />
 
