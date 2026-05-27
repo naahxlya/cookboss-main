@@ -36,207 +36,95 @@ exports.getRecipes = (req, res) => {
 
 exports.addRecipe = (req, res) => {
 
-  const {
-    nome,
-    categoria,
-    tempo,
-    ingredientes,
-    modoPreparo,
-    user_id,
-  } = req.body;
+  const recipes = readRecipes();
 
-  const imagem = req.file
-    ? `/uploads/${req.file.filename}`
-    : "";
+  const newRecipe = {
+    id: Date.now(),
 
-  db.run(
+    nome: req.body.nome,
+    categoria: req.body.categoria,
+    tempo: req.body.tempo,
 
-    `
-      INSERT INTO recipes (
+    ingredientes: req.body.ingredientes,
+    modoPreparo: req.body.modoPreparo,
 
-        nome,
-        categoria,
-        tempo,
-        ingredientes,
-        modo_preparo,
-        imagem,
-        user_id
+    imagem: req.file
+      ? `/uploads/${req.file.filename}`
+      : "",
+  };
 
-      )
+  recipes.push(newRecipe);
 
-      VALUES (?, ?, ?, ?, ?, ?, ?)
-    `,
+  saveRecipes(recipes);
 
-    [
-      nome,
-      categoria,
-      tempo,
-      ingredientes,
-      modoPreparo,
-      imagem,
-      user_id,
-    ],
-
-    function (error) {
-
-      if (error) {
-
-        return res.status(500).json({
-          message:
-            "Erro ao adicionar receita",
-        });
-      }
-
-      res.status(201).json({
-
-        id: this.lastID,
-
-        nome,
-        categoria,
-        tempo,
-        ingredientes,
-
-        modoPreparo,
-
-        imagem,
-
-        user_id,
-      });
-    }
-  );
+  res.status(201).json(newRecipe);
 };
 
 exports.updateRecipe = (req, res) => {
 
-  const id = req.params.id;
+  const recipes = readRecipes();
 
-  db.get(
+  const id = Number(req.params.id);
 
-    "SELECT * FROM recipes WHERE id = ?",
-
-    [id],
-
-    (error, recipe) => {
-
-      if (error) {
-
-        return res.status(500).json({
-          message:
-            "Erro ao buscar receita",
-        });
-      }
-
-      if (!recipe) {
-
-        return res.status(404).json({
-          message:
-            "Receita não encontrada",
-        });
-      }
-
-      const updatedRecipe = {
-
-        nome:
-          req.body.nome ||
-          recipe.nome,
-
-        categoria:
-          req.body.categoria ||
-          recipe.categoria,
-
-        tempo:
-          req.body.tempo ||
-          recipe.tempo,
-
-        ingredientes:
-          req.body.ingredientes ||
-          recipe.ingredientes,
-
-        modoPreparo:
-          req.body.modoPreparo ||
-          recipe.modo_preparo,
-
-        imagem: req.file
-          ? `/uploads/${req.file.filename}`
-          : recipe.imagem,
-      };
-
-      db.run(
-
-        `
-          UPDATE recipes
-
-          SET
-
-            nome = ?,
-            categoria = ?,
-            tempo = ?,
-            ingredientes = ?,
-            modo_preparo = ?,
-            imagem = ?
-
-          WHERE id = ?
-        `,
-
-        [
-          updatedRecipe.nome,
-          updatedRecipe.categoria,
-          updatedRecipe.tempo,
-          updatedRecipe.ingredientes,
-          updatedRecipe.modoPreparo,
-          updatedRecipe.imagem,
-          id,
-        ],
-
-        function (error) {
-
-          if (error) {
-
-            return res.status(500).json({
-              message:
-                "Erro ao atualizar receita",
-            });
-          }
-
-          res.json({
-
-            id,
-
-            ...updatedRecipe,
-
-            modoPreparo:
-              updatedRecipe.modoPreparo,
-          });
-        }
-      );
-    }
+  const index = recipes.findIndex(
+    (recipe) => recipe.id === id
   );
+
+  if (index === -1) {
+
+    return res.status(404).json({
+      message: "Receita não encontrada",
+    });
+  }
+
+  const updatedRecipe = {
+    ...recipes[index],
+
+    nome:
+      req.body.nome ||
+      recipes[index].nome,
+
+    categoria:
+      req.body.categoria ||
+      recipes[index].categoria,
+
+    tempo:
+      req.body.tempo ||
+      recipes[index].tempo,
+
+    ingredientes:
+      req.body.ingredientes ||
+      recipes[index].ingredientes,
+
+    modoPreparo:
+      req.body.modoPreparo ||
+      recipes[index].modoPreparo,
+
+    imagem: req.file
+      ? `/uploads/${req.file.filename}`
+      : recipes[index].imagem,
+  };
+
+  recipes[index] = updatedRecipe;
+
+  saveRecipes(recipes);
+
+  res.json(updatedRecipe);
 };
 
 exports.deleteRecipe = (req, res) => {
 
-  const id = req.params.id;
+  let recipes = readRecipes();
 
-  db.run(
+  const id = Number(req.params.id);
 
-    "DELETE FROM recipes WHERE id = ?",
-
-    [id],
-
-    function (error) {
-
-      if (error) {
-
-        return res.status(500).json({
-          message:
-            "Erro ao remover receita",
-        });
-      }
-
-      res.json({
-        message:
-          "Receita removida com sucesso",
-      });
-    }
+  recipes = recipes.filter(
+    (recipe) => recipe.id !== id
   );
+
+  saveRecipes(recipes);
+
+  res.json({
+    message: "Receita removida com sucesso",
+  });
 };
