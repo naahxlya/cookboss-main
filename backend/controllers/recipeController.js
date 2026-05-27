@@ -1,37 +1,31 @@
-const db = require("../database/connection");
+const fs = require("fs");
+const path = require("path");
+
+const dataPath = path.join(
+  __dirname,
+  "../data/recipes.json"
+);
+
+function readRecipes() {
+
+  const data = fs.readFileSync(dataPath);
+
+  return JSON.parse(data);
+}
+
+function saveRecipes(recipes) {
+
+  fs.writeFileSync(
+    dataPath,
+    JSON.stringify(recipes, null, 2)
+  );
+}
 
 exports.getRecipes = (req, res) => {
 
-  db.all(
+  const recipes = readRecipes();
 
-    "SELECT * FROM recipes",
-
-    [],
-
-    (error, rows) => {
-
-      if (error) {
-
-        return res.status(500).json({
-          message:
-            "Erro ao buscar receitas",
-        });
-      }
-
-      const formattedRecipes =
-        rows.map((recipe) => ({
-
-          ...recipe,
-
-          modoPreparo:
-            recipe.modo_preparo,
-        }));
-
-      res.json(
-        formattedRecipes
-      );
-    }
-  );
+  res.json(recipes);
 };
 
 exports.addRecipe = (req, res) => {
