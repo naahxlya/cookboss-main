@@ -99,7 +99,7 @@ function Home({ setSelectedCategory }) {
                 to="/recipes"
                 className="btn btn-warning btn-lg rounded-pill px-5 fw-bold"
               >
-                <i class="bi bi-egg-fried m-1"></i>
+                <i class="bi bi-egg-fried m-2"></i>
                 Ver Receitas
               </Link>
 
@@ -120,11 +120,11 @@ function Home({ setSelectedCategory }) {
             <div className="card border-0 shadow-lg rounded-5 overflow-hidden">
 
               <img
-                src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c"
+                src="https://images.unsplash.com/photo-1605851868183-7a4de52117fa?q=80&w=580&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 alt="Prato de comida saudável"
                 className="img-fluid"
                 style={{
-                  height: "420px",
+                  height: "410px",
                   width: "100%",
                   objectFit: "cover",
                 }}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {useState, useRef,} from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 import categories from "../data/categories";
@@ -6,6 +6,9 @@ import categories from "../data/categories";
 function AddRecipe() {
 
   const navigate = useNavigate();
+
+  const fileInputRef =
+  useRef(null);
 
   const [formData, setFormData] = useState({
     nome: "",
@@ -47,7 +50,18 @@ function AddRecipe() {
       ...formData,
       imagem: "",
     });
+
+    if (fileInputRef.current) {
+
+      fileInputRef.current.value = "";
+    }
   }
+
+  const user = JSON.parse(
+    localStorage.getItem(
+      "cookboss_user"
+     )
+  );
 
   async function handleSubmit(e) {
 
@@ -56,6 +70,11 @@ function AddRecipe() {
     try {
 
       const data = new FormData();
+
+      data.append(
+        "user_id",
+        user.id
+      );
 
       data.append("nome", formData.nome);
       data.append("categoria", formData.categoria);
@@ -218,12 +237,13 @@ function AddRecipe() {
                     Insira a Imagem
                   </label>
 
-                  <input
-                    type="file"
-                    accept="image/*"
-                    className="form-control form-control-lg"
-                    onChange={handleImageChange}
-                  />
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  className="form-control form-control-lg"
+                  onChange={handleImageChange}
+                />
 
                 </div>
 
