@@ -33,6 +33,10 @@ import VerifyCode from "./pages/VerifyCode";
 
 import ResetPassword from "./pages/ResetPassword";
 
+import PrivateRoute from "./routes/PrivateRoute";
+
+import Profile from "./pages/Profile";
+
 function AppContent() {
 
   const [search, setSearch] =
@@ -85,8 +89,13 @@ function AppContent() {
         <Navbar
           search={search}
           setSearch={setSearch}
+
           user={user}
           setUser={setUser}
+
+          setSelectedCategory={
+            setSelectedCategory
+          }
         />
 
       )}
@@ -94,6 +103,17 @@ function AppContent() {
       <div className="container mt-4">
 
         <Routes>
+
+          <Route
+            path="/profile"
+            element={
+              <PrivateRoute>
+
+                <Profile />
+
+              </PrivateRoute>
+            }
+          />
 
           <Route
             path="/forgot-password"
@@ -149,12 +169,24 @@ function AppContent() {
 
           <Route
             path="/add"
-            element={<AddRecipe />}
+            element={
+              <PrivateRoute>
+
+                <AddRecipe />
+
+              </PrivateRoute>
+            }
           />
 
           <Route
             path="/edit/:id"
-            element={<EditRecipe />}
+            element={
+              <PrivateRoute>
+
+                <EditRecipe />
+
+              </PrivateRoute>
+            }
           />
 
           <Route

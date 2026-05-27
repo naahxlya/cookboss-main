@@ -8,8 +8,11 @@ import logo from "../assets/logo-horizontal.svg";
 function Navbar({
   search,
   setSearch,
+
   user,
   setUser,
+
+  setSelectedCategory,
 }) {
 
   const navigate = useNavigate();
@@ -100,6 +103,10 @@ function Navbar({
               <Link
                 className="nav-link fw-semibold"
                 to="/recipes"
+
+                onClick={() =>
+                  setSelectedCategory("")
+                }
               >
                 Receitas
               </Link>
