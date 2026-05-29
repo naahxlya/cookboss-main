@@ -105,10 +105,9 @@ function Home({ setSelectedCategory }) {
 
               <Link
                 to="/add"
-                className="btn btn-outline-warning btn-lg rounded-pill px-5 fw-bold"
+                className="btn btn-outline-warning btn-lg rounded-pill px-5 fw-bolder"
               >
-                <i class="bi bi-plus m-1"></i>
-                Nova Receita
+                + Nova Receita
               </Link>
 
             </div>
