@@ -202,7 +202,7 @@ function Navbar({
 
                   <button
                     type="button"
-                    className="btn btn-outline-warning rounded-pill px-4 fw-bold"
+                    className="nav-link fw-semibold"
                     onClick={handleLogout}
                   >
                     <i className="bi bi-box-arrow-right me-1"></i>

@@ -3,11 +3,16 @@ import {
   useState,
 } from "react";
 
+import { Link } from "react-router-dom";
+
 import api from "../services/api";
 
 function Profile() {
 
   const [recipesCount, setRecipesCount] =
+    useState(0);
+
+  const [favoritesCount, setFavoritesCount] =
     useState(0);
 
   const user = JSON.parse(
@@ -18,32 +23,39 @@ function Profile() {
 
   useEffect(() => {
 
-    loadRecipes();
+    loadProfileData();
 
   }, []);
 
-  async function loadRecipes() {
+  async function loadProfileData() {
 
     try {
 
-      const response =
-        await api.get("/recipes");
-
-      const userRecipes =
-        response.data.filter(
-          (recipe) =>
-
-            Number(recipe.user_id) ===
-            Number(user.id)
+      const recipesResponse =
+        await api.get(
+          `/recipes?user_id=${user.id}`
         );
 
       setRecipesCount(
-        userRecipes.length
+        recipesResponse.data.length
+      );
+
+      const favoritesResponse =
+        await api.get(
+          `/favorites?user_id=${user.id}`
+        );
+
+      setFavoritesCount(
+        favoritesResponse.data.length
       );
 
     } catch (error) {
 
       console.error(error);
+
+      alert(
+        "Erro ao carregar dados do perfil"
+      );
     }
   }
 
@@ -52,7 +64,7 @@ function Profile() {
 
       <div className="row justify-content-center">
 
-        <div className="col-12 col-lg-8">
+        <div className="col-12 col-lg-9">
 
           <div className="card border-0 shadow-lg rounded-5 overflow-hidden">
 
@@ -66,7 +78,6 @@ function Profile() {
 
               <div
                 className="bg-white rounded-circle d-flex align-items-center justify-content-center mx-auto shadow"
-
                 style={{
                   width: "120px",
                   height: "120px",
@@ -96,7 +107,7 @@ function Profile() {
 
               <div className="row g-4">
 
-                <div className="col-md-6">
+                <div className="col-md-4">
 
                   <div className="border rounded-4 p-4 h-100">
 
@@ -106,7 +117,7 @@ function Profile() {
 
                     </p>
 
-                    <h5 className="fw-bold">
+                    <h5 className="fw-bold text-break">
 
                       {user.email}
 
@@ -116,9 +127,9 @@ function Profile() {
 
                 </div>
 
-                <div className="col-md-6">
+                <div className="col-md-4">
 
-                  <div className="border rounded-4 p-4 h-100">
+                  <div className="border rounded-4 p-4 h-100 text-center">
 
                     <p className="text-muted mb-2">
 
@@ -136,15 +147,62 @@ function Profile() {
 
                 </div>
 
+                <div className="col-md-4">
+
+                  <div className="border rounded-4 p-4 h-100 text-center">
+
+                    <p className="text-muted mb-2">
+
+                      Receitas favoritas
+
+                    </p>
+
+                    <h3 className="fw-bold text-danger">
+
+                      {favoritesCount}
+
+                    </h3>
+
+                  </div>
+
+                </div>
+
               </div>
 
               <div className="mt-5 text-center">
 
                 <p className="text-muted">
 
-                  Continue criando receitas incríveis 🍰✨
+                  Continue criando e salvando suas receitas favoritas 🍰✨
 
                 </p>
+
+                <div className="d-flex flex-column flex-md-row gap-3 justify-content-center mt-4">
+
+                  <Link
+                    to="/add"
+                    className="btn btn-warning rounded-pill px-4 fw-bold"
+                  >
+                    + Nova Receita
+                  </Link>
+
+                  <Link
+                    to="/favorites"
+                    className="btn btn-outline-danger rounded-pill px-4 fw-bold"
+                  >
+                    <i className="bi bi-heart-fill me-2"></i>
+                    Ver Favoritos
+                  </Link>
+
+                  <Link
+                    to="/recipes"
+                    className="btn btn-outline-warning rounded-pill px-4 fw-bold"
+                  >
+                    <i class="bi bi-egg-fried m-1"></i>
+                    Ver Minhas Receitas
+                  </Link>
+
+                </div>
 
               </div>
 

@@ -9,6 +9,8 @@ import api from "../services/api";
 
 import RecipeCard from "../components/RecipeCard";
 
+import logo from "../assets/logo.svg";
+
 function Favorites() {
 
   const [favorites, setFavorites] =
@@ -60,14 +62,21 @@ function Favorites() {
   }
 
   return (
-    <main className="container py-5">
+    <main className="container py-1">
 
       <div className="text-center mb-5">
 
-        
+        <img
+            src={logo}
+            alt="CookBoss"
+            style={{
+                height: "80px",
+                objectFit: "contain",
+            }}
+        />
 
         <h2 className="fw-bold mb-0">
-          ❤️ Minhas Receitas Favoritas
+          Meus Favoritos
         </h2>
 
       </div>
