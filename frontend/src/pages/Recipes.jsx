@@ -81,7 +81,6 @@ function Recipes({
         />
 
         <h2 className="fw-bold mb-0">
-          <i class="bi bi-fork-knife m-2"></i>
           Todas as Receitas
         </h2>
 
