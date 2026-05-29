@@ -203,7 +203,7 @@ function RecipeCard({
             className={
               isFavorite
                 ? "bi bi-heart-fill text-danger"
-                : "bi bi-heart text-danger"
+                : "bi bi-heart-fill text-danger"
             }
           ></i>
 

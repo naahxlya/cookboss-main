@@ -64,9 +64,7 @@ function Favorites() {
 
       <div className="text-center mb-5">
 
-        <span className="text-warning fw-bold">
-          CookBoss
-        </span>
+        
 
         <h2 className="fw-bold mb-0">
           ❤️ Minhas Receitas Favoritas

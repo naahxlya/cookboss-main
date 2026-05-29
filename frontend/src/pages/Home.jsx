@@ -157,7 +157,8 @@ function Home({ setSelectedCategory }) {
             to="/recipes"
             className="text-warning fw-bold text-decoration-none"
           >
-            Ver todas →
+            Ver todas
+            <i class="bi bi-arrow-right-short m-1"></i>
           </Link>
 
         </div>
