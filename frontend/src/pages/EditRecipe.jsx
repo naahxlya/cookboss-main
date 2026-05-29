@@ -138,7 +138,8 @@ function EditRecipe() {
             <div className="card-body p-5">
 
               <h2 className="text-center fw-bold mb-4 text-warning">
-                ✏️ Editar Receita
+                <i class="bi bi-pencil-fill mx-2"></i>
+                 Editar Receita
               </h2>
 
               <form onSubmit={handleSubmit}>
@@ -293,6 +294,7 @@ function EditRecipe() {
                 <div className="d-flex gap-3 edit-recipe-actions">
 
                   <button className="btn btn-warning btn-lg fw-bold flex-fill">
+                    <i class="bi bi-check m-1"></i>
                     Salvar Alterações
                   </button>
 
@@ -301,6 +303,7 @@ function EditRecipe() {
                     className="btn btn-outline-secondary btn-lg fw-bold flex-fill"
                     onClick={() => navigate("/recipes")}
                   >
+                    <i class="bi bi-x"></i>
                     Cancelar
                   </button>
 
@@ -309,6 +312,7 @@ function EditRecipe() {
                     className="btn btn-outline-danger"
                     onClick={removeImage}
                   >
+                    <i class="bi bi-trash-fill m-1"></i>
                     Remover Imagem
                   </button>
 
