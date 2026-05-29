@@ -18,6 +18,8 @@ import ToastProvider from "./components/ToastProvider";
 
 import PrivateRoute from "./routes/PrivateRoute";
 
+import Landing from "./pages/Landing";
+
 import Home from "./pages/Home";
 
 import Recipes from "./pages/Recipes";
@@ -59,6 +61,7 @@ function AppContent() {
     useLocation();
 
   const hiddenRoutes = [
+    "/",
     "/login",
     "/register",
     "/forgot-password",
@@ -106,9 +109,18 @@ function AppContent() {
 
       )}
 
-      <div className="container mt-4">
+      <div className={
+        hideNavbar
+          ? ""
+          : "container mt-4"
+      }>
 
         <Routes>
+
+          <Route
+            path="/"
+            element={<Landing />}
+          />
 
           <Route
             path="/login"
@@ -140,13 +152,17 @@ function AppContent() {
           />
 
           <Route
-            path="/"
+            path="/home"
             element={
-              <Home
-                setSelectedCategory={
-                  setSelectedCategory
-                }
-              />
+              <PrivateRoute>
+
+                <Home
+                  setSelectedCategory={
+                    setSelectedCategory
+                  }
+                />
+
+              </PrivateRoute>
             }
           />
 
