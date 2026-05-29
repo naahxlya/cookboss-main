@@ -55,7 +55,7 @@ function Login({ setUser }) {
         response.data.message
       );
 
-      navigate("/");
+      navigate("/home");
 
     } catch (error) {
 

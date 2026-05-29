@@ -36,7 +36,7 @@ function Landing() {
               <h1 className="display-4 fw-bold mb-4">
 
                 Organize suas receitas favoritas
-                de um jeito simples, bonito e prático
+                de um jeito simples, rápido e prático
 
               </h1>
 
@@ -54,6 +54,7 @@ function Landing() {
                   to="/register"
                   className="btn btn-warning btn-lg rounded-pill px-5 fw-bold"
                 >
+                    <i class="bi bi-box-arrow-in-right mx-2"></i>
                   Registrar-se
                 </Link>
 
@@ -61,6 +62,7 @@ function Landing() {
                   to="/login"
                   className="btn btn-outline-warning btn-lg rounded-pill px-5 fw-bold"
                 >
+                    <i class="bi bi-box-arrow-in-left mx-2"></i>
                   Entrar
                 </Link>
 
@@ -287,7 +289,7 @@ function Landing() {
               to="/register"
               className="btn btn-light rounded-pill px-5 fw-bold text-warning"
             >
-                <i class="bi bi-box-arrow-in-right m-1"></i>
+                <i class="bi bi-box-arrow-in-right mx-2"></i>
               Registrar-se
             </Link>
 
@@ -295,7 +297,7 @@ function Landing() {
               to="/login"
               className="btn btn-outline-light rounded-pill px-5 fw-bold"
             >
-                <i class="bi bi-box-arrow-in-left m-1"></i>
+                <i class="bi bi-box-arrow-in-left mx-2"></i>
               Entrar
             </Link>
 
