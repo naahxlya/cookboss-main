@@ -128,6 +128,21 @@ function Navbar({
 
           <ul className="navbar-nav align-items-lg-center gap-2">
 
+            {user && (
+
+              <li className="nav-item">
+
+                <Link
+                  className="btn btn-warning fw-bold px-4 rounded-pill"
+                  to="/add"
+                >
+                  + Nova Receita
+                </Link>
+
+              </li>
+
+            )}
+
             <li className="nav-item">
 
               <Link
@@ -159,23 +174,7 @@ function Navbar({
                   className="nav-link fw-semibold"
                   to="/favorites"
                 >
-                  <i className="bi bi-heart-fill me-1"></i>
                   Favoritos
-                </Link>
-
-              </li>
-
-            )}
-
-            {user && (
-
-              <li className="nav-item">
-
-                <Link
-                  className="btn btn-warning fw-bold px-4 rounded-pill"
-                  to="/add"
-                >
-                  + Nova Receita
                 </Link>
 
               </li>
@@ -192,7 +191,6 @@ function Navbar({
                     className="nav-link fw-semibold"
                     to="/profile"
                   >
-                    <i className="bi bi-file-person-fill me-1"></i>
                     Perfil
                   </Link>
 
@@ -202,7 +200,7 @@ function Navbar({
 
                   <button
                     type="button"
-                    className="btn btn-outline-warning rounded-pill px-4 fw-bold"
+                    className="nav-link fw-semibold"
                     onClick={handleLogout}
                   >
                     <i className="bi bi-box-arrow-right me-1"></i>
