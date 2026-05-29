@@ -5,6 +5,8 @@ import {
 
 import logo from "../assets/logo-horizontal.svg";
 
+import { confirmDialog } from "../utils/confirmDialog";
+
 function Navbar({
   search,
   setSearch,
@@ -15,9 +17,26 @@ function Navbar({
   setSelectedCategory,
 }) {
 
-  const navigate = useNavigate();
+  const navigate =
+    useNavigate();
 
-  function handleLogout() {
+  async function handleLogout() {
+
+    const confirmed =
+      await confirmDialog({
+        title:
+          "Sair da conta?",
+        text:
+          "Tem certeza que deseja sair?",
+        confirmButtonText:
+          "Sim, sair",
+        cancelButtonText:
+          "Não, ficar",
+        icon:
+          "question",
+      });
+
+    if (!confirmed) return;
 
     localStorage.removeItem(
       "cookboss_user"
@@ -25,7 +44,29 @@ function Navbar({
 
     setUser(null);
 
+    alert(
+      "Você saiu da conta"
+    );
+
     navigate("/login");
+  }
+
+  function handleRecipesClick() {
+
+    setSelectedCategory("");
+
+    navigate("/recipes");
+  }
+
+  function handleSearchChange(e) {
+
+    setSearch(
+      e.target.value
+    );
+
+    setSelectedCategory("");
+
+    navigate("/recipes");
   }
 
   return (
@@ -35,7 +76,7 @@ function Navbar({
 
         <Link
           className="navbar-brand fw-bold text-warning fs-3"
-          to="/"
+          to="/home"
         >
 
           <img
@@ -54,6 +95,9 @@ function Navbar({
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Abrir menu"
         >
 
           <span className="navbar-toggler-icon"></span>
@@ -65,22 +109,19 @@ function Navbar({
           id="navbarNav"
         >
 
-          <form className="d-flex mx-lg-4 my-3 my-lg-0 flex-grow-1">
+          <form
+            className="d-flex mx-lg-4 my-3 my-lg-0 flex-grow-1"
+            onSubmit={(e) =>
+              e.preventDefault()
+            }
+          >
 
             <input
               className="form-control rounded-pill px-4"
               type="search"
               placeholder="Buscar receitas..."
               value={search}
-
-              onChange={(e) => {
-
-                setSearch(
-                  e.target.value
-                );
-
-                navigate("/recipes");
-              }}
+              onChange={handleSearchChange}
             />
 
           </form>
@@ -91,7 +132,7 @@ function Navbar({
 
               <Link
                 className="nav-link fw-semibold"
-                to="/"
+                to="/home"
               >
                 Home
               </Link>
@@ -100,40 +141,58 @@ function Navbar({
 
             <li className="nav-item">
 
-              <Link
-                className="nav-link fw-semibold"
-                to="/recipes"
-
-                onClick={() =>
-                  setSelectedCategory("")
-                }
+              <button
+                type="button"
+                className="nav-link fw-semibold btn btn-link text-decoration-none"
+                onClick={handleRecipesClick}
               >
                 Receitas
-              </Link>
+              </button>
 
             </li>
 
-            <li className="nav-item">
+            {user && (
 
-              <Link
-                className="btn btn-warning fw-bold px-4 rounded-pill"
-                to="/add"
-              >
-                + Nova Receita
-              </Link>
+              <li className="nav-item">
 
-            </li>
+                <Link
+                  className="nav-link fw-semibold"
+                  to="/favorites"
+                >
+                  <i className="bi bi-heart-fill me-1"></i>
+                  Favoritos
+                </Link>
+
+              </li>
+
+            )}
+
+            {user && (
+
+              <li className="nav-item">
+
+                <Link
+                  className="btn btn-warning fw-bold px-4 rounded-pill"
+                  to="/add"
+                >
+                  + Nova Receita
+                </Link>
+
+              </li>
+
+            )}
 
             {user ? (
 
               <>
+
                 <li className="nav-item">
 
                   <Link
                     className="nav-link fw-semibold"
                     to="/profile"
                   >
-                    <i class="bi bi-file-person-fill m-1"></i>
+                    <i className="bi bi-file-person-fill me-1"></i>
                     Perfil
                   </Link>
 
@@ -142,14 +201,16 @@ function Navbar({
                 <li className="nav-item">
 
                   <button
-                    className="nav-link fw-semibold"
+                    type="button"
+                    className="btn btn-outline-warning rounded-pill px-4 fw-bold"
                     onClick={handleLogout}
                   >
-                    <i class="bi bi-box-arrow-right m-1"></i>
+                    <i className="bi bi-box-arrow-right me-1"></i>
                     Sair
                   </button>
 
                 </li>
+
               </>
 
             ) : (

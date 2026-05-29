@@ -14,6 +14,12 @@ import Navbar from "./components/Navbar";
 
 import Footer from "./components/Footer";
 
+import ToastProvider from "./components/ToastProvider";
+
+import PrivateRoute from "./routes/PrivateRoute";
+
+import Landing from "./pages/Landing";
+
 import Home from "./pages/Home";
 
 import Recipes from "./pages/Recipes";
@@ -27,15 +33,16 @@ import RecipeDetails from "./pages/RecipeDetails";
 import Register from "./pages/Register";
 
 import Login from "./pages/Login";
+
 import ForgotPassword from "./pages/ForgotPassword";
 
 import VerifyCode from "./pages/VerifyCode";
 
 import ResetPassword from "./pages/ResetPassword";
 
-import PrivateRoute from "./routes/PrivateRoute";
-
 import Profile from "./pages/Profile";
+
+import Favorites from "./pages/Favorites";
 
 function AppContent() {
 
@@ -50,14 +57,16 @@ function AppContent() {
     setSelectedCategory,
   ] = useState("");
 
-  const location = useLocation();
+  const location =
+    useLocation();
 
   const hiddenRoutes = [
-  "/login",
-  "/register",
-  "/forgot-password",
-  "/verify-code",
-  "/reset-password",
+    "/",
+    "/login",
+    "/register",
+    "/forgot-password",
+    "/verify-code",
+    "/reset-password",
   ];
 
   const hideNavbar =
@@ -84,15 +93,15 @@ function AppContent() {
   return (
     <>
 
+      <ToastProvider />
+
       {!hideNavbar && (
 
         <Navbar
           search={search}
           setSearch={setSearch}
-
           user={user}
           setUser={setUser}
-
           setSelectedCategory={
             setSelectedCategory
           }
@@ -100,19 +109,31 @@ function AppContent() {
 
       )}
 
-      <div className="container mt-4">
+      <div className={
+        hideNavbar
+          ? ""
+          : "container mt-4"
+      }>
 
         <Routes>
 
           <Route
-            path="/profile"
+            path="/"
+            element={<Landing />}
+          />
+
+          <Route
+            path="/login"
             element={
-              <PrivateRoute>
-
-                <Profile />
-
-              </PrivateRoute>
+              <Login
+                setUser={setUser}
+              />
             }
+          />
+
+          <Route
+            path="/register"
+            element={<Register />}
           />
 
           <Route
@@ -131,39 +152,33 @@ function AppContent() {
           />
 
           <Route
-            path="/login"
+            path="/home"
             element={
-              <Login
-                setUser={setUser}
-              />
-            }
-          />
+              <PrivateRoute>
 
-          <Route
-            path="/register"
-            element={<Register />}
-          />
+                <Home
+                  setSelectedCategory={
+                    setSelectedCategory
+                  }
+                />
 
-          <Route
-            path="/"
-            element={
-              <Home
-                setSelectedCategory={
-                  setSelectedCategory
-                }
-              />
+              </PrivateRoute>
             }
           />
 
           <Route
             path="/recipes"
             element={
-              <Recipes
-                search={search}
-                selectedCategory={
-                  selectedCategory
-                }
-              />
+              <PrivateRoute>
+
+                <Recipes
+                  search={search}
+                  selectedCategory={
+                    selectedCategory
+                  }
+                />
+
+              </PrivateRoute>
             }
           />
 
@@ -192,7 +207,33 @@ function AppContent() {
           <Route
             path="/recipe/:id"
             element={
-              <RecipeDetails />
+              <PrivateRoute>
+
+                <RecipeDetails />
+
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="/profile"
+            element={
+              <PrivateRoute>
+
+                <Profile />
+
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="/favorites"
+            element={
+              <PrivateRoute>
+
+                <Favorites />
+
+              </PrivateRoute>
             }
           />
 

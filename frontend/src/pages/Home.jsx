@@ -105,10 +105,9 @@ function Home({ setSelectedCategory }) {
 
               <Link
                 to="/add"
-                className="btn btn-outline-warning btn-lg rounded-pill px-5 fw-bold"
+                className="btn btn-outline-warning btn-lg rounded-pill px-5 fw-bolder"
               >
-                <i class="bi bi-plus m-1"></i>
-                Nova Receita
+                + Nova Receita
               </Link>
 
             </div>
@@ -124,7 +123,7 @@ function Home({ setSelectedCategory }) {
                 alt="Prato de comida saudável"
                 className="img-fluid"
                 style={{
-                  height: "410px",
+                  height: "405px",
                   width: "100%",
                   objectFit: "cover",
                 }}
@@ -158,7 +157,8 @@ function Home({ setSelectedCategory }) {
             to="/recipes"
             className="text-warning fw-bold text-decoration-none"
           >
-            Ver todas →
+            Ver todas
+            <i class="bi bi-caret-right-fill m-1"></i>
           </Link>
 
         </div>
@@ -173,14 +173,14 @@ function Home({ setSelectedCategory }) {
             >
 
               <div
-                className="card border-0 shadow-sm rounded-4 p-4 h-100 category-card"
+                className="card border-0 shadow-sm rounded-4 p-3 h-100 category-card"
                 role="button"
                 onClick={() =>
                   handleCategoryClick(category)
                 }
               >
 
-                <div className="fs-1 mb-3">
+                <div className="fs-1 mb-0">
                   {categoryData[category].icon}
                 </div>
 
@@ -207,7 +207,7 @@ function Home({ setSelectedCategory }) {
 
       <section className="container py-5">
 
-        <div className="rounded-5 card-footer bg-opacity-25 p-5 text-center">
+        <div className="rounded-5 card-footer bg-opacity-25 p-4 text-center">
 
           <h2 className="fw-bold mb-3">
             Transforme sua cozinha em um painel de receitas inteligente ✨

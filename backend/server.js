@@ -9,9 +9,6 @@ const cors =
 const path =
   require("path");
 
-const db =
-  require("./database/connection");
-
 require("./database/init");
 
 const recipeRoutes =
@@ -23,7 +20,11 @@ const authRoutes =
 const passwordRoutes =
   require("./routes/password");
 
-const app = express();
+const favoriteRoutes =
+  require("./routes/favorites");
+
+const app =
+  express();
 
 app.use(cors());
 
@@ -59,6 +60,11 @@ app.use(
 app.use(
   "/password",
   passwordRoutes
+);
+
+app.use(
+  "/favorites",
+  favoriteRoutes
 );
 
 const PORT = 3001;

@@ -46,6 +46,42 @@ db.serialize(() => {
     )
   `);
 
+  db.run(`
+
+    CREATE TABLE IF NOT EXISTS password_resets (
+
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+      email TEXT NOT NULL,
+
+      code TEXT NOT NULL,
+
+      expires_at DATETIME NOT NULL
+    )
+  `);
+
+  db.run(`
+
+    CREATE TABLE IF NOT EXISTS favorites (
+
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+      user_id INTEGER NOT NULL,
+
+      recipe_id INTEGER NOT NULL,
+
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+      UNIQUE(user_id, recipe_id),
+
+      FOREIGN KEY (user_id)
+      REFERENCES users(id),
+
+      FOREIGN KEY (recipe_id)
+      REFERENCES recipes(id)
+    )
+  `);
+
 });
 
 console.log("Banco inicializado");
