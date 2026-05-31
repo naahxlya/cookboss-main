@@ -9,7 +9,7 @@
     "test": "echo \"Nenhum teste automatizado configurado\" && exit 0"
   },
   "engines": {
-    "node": "20.x"
+    "node": "20.18.1"
   },
   "keywords": [
     "node",
@@ -28,7 +28,7 @@
     "express": "^5.2.1",
     "multer": "^2.1.1",
     "nodemailer": "^7.0.10",
-    "sqlite3": "^6.0.1"
+    "sqlite3": "5.1.7"
   },
   "devDependencies": {
     "nodemon": "^3.1.14"
