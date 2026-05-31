@@ -83,7 +83,7 @@ function Favorites() {
 
       {favorites.length === 0 ? (
 
-        <div className="text-center bg-warning bg-opacity-25 rounded-5 p-5">
+        <div className="text-center card-footer bg-opacity-25 rounded-5 p-5">
 
           <h3 className="fw-bold">
             Nenhuma receita favorita ainda
@@ -97,6 +97,7 @@ function Favorites() {
             to="/recipes"
             className="btn btn-warning rounded-pill px-4 fw-bold"
           >
+            <i class="bi bi-egg-fried m-2"></i>
             Ver Receitas
           </Link>
 

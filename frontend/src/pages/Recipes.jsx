@@ -118,6 +118,7 @@ function Recipes({
             to="/add"
             className="btn btn-warning rounded-pill px-4 fw-bold"
           >
+            <i class="bi bi-plus m-1"></i>
             Adicionar Receita
           </Link>
 
