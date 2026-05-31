@@ -26,7 +26,33 @@ const favoriteRoutes =
 const app =
   express();
 
-app.use(cors());
+const allowedOrigins = [
+  "http://localhost:5173",
+  process.env.FRONTEND_URL,
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+
+      if (
+        !origin ||
+        allowedOrigins.includes(origin)
+      ) {
+
+        callback(null, true);
+
+      } else {
+
+        callback(
+          new Error(
+            "Origem não permitida pelo CORS"
+          )
+        );
+      }
+    },
+  })
+);
 
 app.use(express.json());
 
@@ -67,7 +93,8 @@ app.use(
   favoriteRoutes
 );
 
-const PORT = 3001;
+const PORT =
+  process.env.PORT || 3001;
 
 app.listen(PORT, () => {
 
