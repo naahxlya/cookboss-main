@@ -1,82 +1,21 @@
-const db = require("../database/connection");
+const bcrypt =
+  require("bcrypt");
 
-const bcrypt = require("bcrypt");
+const db =
+  require("../database/connection");
 
-exports.register = async (req, res) => {
+exports.register = (req, res) => {
 
-  const {
-    email,
-    password,
-    confirmPassword,
-  } = req.body;
+  const email =
+    req.body.email;
 
-  if (
-    !email ||
-    !password ||
-    !confirmPassword
-  ) {
-    return res.status(400).json({
-      message:
-        "Preencha todos os campos",
-    });
-  }
+  const password =
+    req.body.password ||
+    req.body.senha;
 
-  if (password !== confirmPassword) {
-    return res.status(400).json({
-      message:
-        "As senhas não coincidem",
-    });
-  }
-
-  try {
-
-    const hashedPassword =
-      await bcrypt.hash(password, 10);
-
-    db.run(
-      `
-      INSERT INTO users (
-        email,
-        password
-      )
-      VALUES (?, ?)
-      `,
-      [email, hashedPassword],
-
-      function (error) {
-
-        if (error) {
-
-          return res.status(400).json({
-            message:
-              "Email já cadastrado",
-          });
-        }
-
-        res.status(201).json({
-          message:
-            "Usuário cadastrado com sucesso",
-        });
-      }
-    );
-
-  } catch (error) {
-
-    console.error(error);
-
-    res.status(500).json({
-      message:
-        "Erro interno no servidor",
-    });
-  }
-};
-
-exports.login = (req, res) => {
-
-  const {
-    email,
-    password,
-  } = req.body;
+  const confirmPassword =
+    req.body.confirmPassword ||
+    req.body.confirmarSenha;
 
   if (!email || !password) {
 
@@ -86,11 +25,21 @@ exports.login = (req, res) => {
     });
   }
 
+  if (
+    confirmPassword &&
+    password !== confirmPassword
+  ) {
+
+    return res.status(400).json({
+      message:
+        "As senhas não coincidem",
+    });
+  }
+
   db.get(
-    `
-    SELECT * FROM users
-    WHERE email = ?
-    `,
+
+    "SELECT * FROM users WHERE email = ?",
+
     [email],
 
     async (error, user) => {
@@ -101,54 +50,145 @@ exports.login = (req, res) => {
 
         return res.status(500).json({
           message:
-            "Erro interno no servidor",
+            "Erro ao verificar usuário",
         });
       }
 
-      if (!user) {
+      if (user) {
 
-        return res.status(404).json({
+        return res.status(400).json({
           message:
-            "Usuário não encontrado",
+            "Email já cadastrado",
         });
       }
 
       try {
 
-        const passwordMatch =
-          await bcrypt.compare(
+        const hashedPassword =
+          await bcrypt.hash(
             password,
-            user.password
+            10
           );
 
-        if (!passwordMatch) {
+        db.run(
 
-          return res.status(401).json({
-            message:
-              "Senha incorreta",
-          });
-        }
+          `
+            INSERT INTO users (
+              email,
+              password
+            )
 
-        return res.status(200).json({
+            VALUES (?, ?)
+          `,
 
-          message:
-            "Login realizado com sucesso",
+          [
+            email,
+            hashedPassword,
+          ],
 
-          user: {
-            id: user.id,
-            email: user.email,
-          },
-        });
+          function (error) {
 
-      } catch (compareError) {
+            if (error) {
 
-        console.error(compareError);
+              console.error(error);
+
+              return res.status(500).json({
+                message:
+                  "Erro ao cadastrar usuário",
+              });
+            }
+
+            return res.status(201).json({
+              message:
+                "Usuário cadastrado com sucesso",
+
+              user: {
+                id: this.lastID,
+                email,
+              },
+            });
+          }
+        );
+
+      } catch (error) {
+
+        console.error(error);
 
         return res.status(500).json({
           message:
-            "Erro ao validar senha",
+            "Erro ao criptografar senha",
         });
       }
+    }
+  );
+};
+
+exports.login = (req, res) => {
+
+  const email =
+    req.body.email;
+
+  const password =
+    req.body.password ||
+    req.body.senha;
+
+  if (!email || !password) {
+
+    return res.status(400).json({
+      message:
+        "Preencha todos os campos",
+    });
+  }
+
+  db.get(
+
+    "SELECT * FROM users WHERE email = ?",
+
+    [email],
+
+    async (error, user) => {
+
+      if (error) {
+
+        console.error(error);
+
+        return res.status(500).json({
+          message:
+            "Erro ao fazer login",
+        });
+      }
+
+      if (!user) {
+
+        return res.status(401).json({
+          message:
+            "Email ou senha incorretos",
+        });
+      }
+
+      const passwordMatch =
+        await bcrypt.compare(
+          password,
+          user.password
+        );
+
+      if (!passwordMatch) {
+
+        return res.status(401).json({
+          message:
+            "Email ou senha incorretos",
+        });
+      }
+
+      return res.json({
+        message:
+          "Login realizado com sucesso",
+
+        user: {
+          id: user.id,
+          email: user.email,
+        },
+      });
     }
   );
 };
