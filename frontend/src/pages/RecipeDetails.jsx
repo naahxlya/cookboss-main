@@ -1,6 +1,16 @@
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import {
+  useEffect,
+  useState,
+} from "react";
+
+import {
+  useNavigate,
+  useParams,
+} from "react-router-dom";
+
 import api from "../services/api";
+
+import { getImageUrl } from "../utils/getImageUrl";
 
 function RecipeDetails() {
 
@@ -8,27 +18,48 @@ function RecipeDetails() {
 
   const navigate = useNavigate();
 
-  const [recipe, setRecipe] = useState(null);
+  const [recipe, setRecipe] =
+    useState(null);
+
+  const user = JSON.parse(
+    localStorage.getItem(
+      "cookboss_user"
+    )
+  );
 
   useEffect(() => {
+
     loadRecipe();
+
   }, []);
 
   async function loadRecipe() {
 
     try {
 
-      const response = await api.get("/recipes");
+      const response =
+        await api.get(
+          `/recipes?user_id=${user.id}`
+        );
 
-      const foundRecipe = response.data.find(
-        (item) => item.id === Number(id)
+      const foundRecipe =
+        response.data.find(
+          (item) =>
+            Number(item.id) ===
+            Number(id)
+        );
+
+      setRecipe(
+        foundRecipe
       );
-
-      setRecipe(foundRecipe);
 
     } catch (error) {
 
       console.error(error);
+
+      alert(
+        "Erro ao carregar receita"
+      );
     }
   }
 
@@ -52,33 +83,31 @@ function RecipeDetails() {
 
         <div className="p-4 p-lg-5">
 
-           <button
+          <button
             className="btn btn-outline-warning rounded-pill mb-4"
-            onClick={() => navigate("/recipes")}
+            onClick={() =>
+              navigate("/recipes")
+            }
           >
-            <i class="bi bi-arrow-left-short m-1"></i>
+            <i className="bi bi-arrow-left-short m-1"></i>
           </button>
 
           <div className="text-center mb-5">
 
             <img
               src={
-                recipe.imagem
-                  ? `http://localhost:3001${recipe.imagem}`
-                  : "https://placehold.co/600x400/f1f1f1/999999?text=CookBoss"
+                getImageUrl(
+                  recipe.imagem
+                )
               }
-
               alt={recipe.nome}
-
               className="img-fluid rounded-5 shadow-sm"
-
               style={{
                 width: "100%",
                 maxWidth: "700px",
                 height: "320px",
                 objectFit: "cover",
               }}
-
               onError={(e) => {
                 e.target.src =
                   "https://placehold.co/600x400/f1f1f1/999999?text=CookBoss";
@@ -98,7 +127,7 @@ function RecipeDetails() {
             </h1>
 
             <p className="fs-5 text-muted">
-              <i class="bi bi-stopwatch m-1"></i> 
+              <i className="bi bi-stopwatch m-1"></i>
               Tempo de preparo: {recipe.tempo}
             </p>
 
@@ -153,7 +182,9 @@ function RecipeDetails() {
           </section>
 
         </div>
+
       </div>
+
     </main>
   );
 }
