@@ -1,67 +1,67 @@
 # 🍳 CookBoss
 
-CookBoss is a full-stack recipe management web application developed for the **Web Programming** course.
+O CookBoss é um aplicativo web completo para gerenciamento de receitas, desenvolvido para o curso de **Programação Web**.
 
-The platform allows users to browse, create, edit, delete, and favorite recipes through a modern and responsive interface.
+A plataforma permite que os usuários naveguem, criem, editem, excluam e adicionem receitas aos favoritos por meio de uma interface moderna e responsiva.
 
-This project was designed to demonstrate concepts studied during the course, including:
+Este projeto foi desenvolvido para demonstrar os conceitos estudados durante o curso, incluindo:
 
-* Web application development
-* Front-end frameworks
-* Back-end frameworks
-* REST APIs
-* CRUD operations
-* Version control with Git
-* Deploy and hosting
-* Responsive design
-* Project planning and backlog management
+* Desenvolvimento de aplicações web
+* Frameworks de front-end
+* Frameworks de back-end
+* APIs REST
+* Operações CRUD
+* Controle de versão com Git
+* Implantação e hospedagem
+* Design responsivo
+* Planejamento de projetos e gerenciamento de backlog
 
 ---
 
-## 📌 Features
+## 📌 Funcionalidades
 
-### Recipe Management (CRUD)
+### Gerenciamento de Receitas (CRUD)
 
-* Create new recipes
-* View all recipes
-* Edit existing recipes
-* Delete recipes with confirmation
+* Criar novas receitas
+* Visualizar todas as receitas
+* Editar receitas existentes
+* Excluir receitas com confirmação
 
-### Recipe Details
+### Detalhes da Receita
 
-Each recipe includes:
+Cada receita inclui:
 
-* Name
-* Category
-* Preparation time
-* Difficulty level
-* Ingredients
-* Preparation steps
-* Image
+* Nome
+* Categoria
+* Tempo de preparo
+* Nível de dificuldade
+* Ingredientes
+* Passos de preparo
+* Imagem
 
-### Search and Filters
+### Busca e Filtros
 
-* Search recipes by name
-* Filter by category
-* Filter by difficulty
+* Buscar receitas por nome
+* Filtrar por categoria
+* Filtrar por dificuldade
 
-### Favorites
+### Favoritos
 
-* Save favorite recipes
-* Favorites stored persistently
+* Salvar receitas favoritas
+* Favoritos armazenados permanentemente
 
 ### UI/UX
 
-* Responsive design (desktop + mobile)
-* Modern food-themed interface
-* Dark mode
-* Toast notifications
-* Loading states
-* Empty states
+* Design responsivo (desktop + mobile)
+* Interface moderna com tema gastronômico
+* Modo escuro
+* Notificações (Toast) Notificações
+* Estados de carregamento
+* Estados vazios
 
 ---
 
-## 🛠️ Technologies Used
+## 🛠️ Tecnologias Utilizadas
 
 ### Front-end
 
@@ -73,44 +73,44 @@ Each recipe includes:
 
 ### Back-end
 
-* Lovable Cloud backend
-* Server functions
-* REST-like API routes
+* Backend Lovable Cloud
+* Funções de servidor
+* Rotas de API REST
 
-### Other Tools
+### Outras Ferramentas
 
-* Git & GitHub
-* Vercel / Lovable deployment
+* Git e GitHub
+* Implantação Vercel / Lovable
 
 ---
 
-## 📂 Project Structure
+## 📂 Estrutura do Projeto
 
 ```bash
 src/
 ├── components/
-│   ├── Navbar
-│   ├── RecipeCard
-│   ├── SearchBar
-│   ├── Footer
-│   └── UI components
+│ ├── Navbar
+│ ├── RecipeCard
+│ ├── SearchBar
+│ ├── Footer
+│ └── UI componentes
 │
-├── routes/
-│   ├── index
-│   ├── recipes
-│   ├── favorites
-│   ├── add-recipe
-│   ├── edit-recipe
-│   └── api
+├── rotas/
+│ ├── índice
+│ ├── receitas
+│ ├── favoritos
+│ ├── adicionar-receita
+│ ├── editar-receita
+│ └── api
 │
 ├── lib/
-│   ├── utilities
-│   └── backend functions
+│ ├── utilitários
+│ └── funções de backend
 ```
 
 ---
 
-## 🔌 API Endpoints
+## 🔌 Endpoints da API
 
 ```http
 GET /api/recipes
@@ -122,27 +122,27 @@ DELETE /api/recipes/:id
 
 ---
 
-## 🚀 Installation
+## 🚀 Instalação
 
-### Clone repository
+### Clonar o repositório
 
 ```bash
 git clone https://github.com/naahxlya/cook-boss.git
 ```
 
-### Access folder
+### Acessar a pasta
 
 ```bash
 cd cook-boss
 ```
 
-### Install dependencies
+### Instalar dependências
 
 ```bash
 npm install
 ```
 
-### Run locally
+### Executar localmente
 
 ```bash
 npm run dev
@@ -150,47 +150,47 @@ npm run dev
 
 ---
 
-## 📱 Responsiveness
+## 📱 Responsividade
 
-The application was tested for:
+O aplicativo foi testado para:
 
 * Desktop
 * Tablet
-* Mobile devices
+* Dispositivos móveis
 
 ---
 
-## 📖 Academic Objectives Covered
+## 📖 Objetivos Acadêmicos Abordados
 
-This project covers the following course topics:
+Este projeto abrange os seguintes tópicos do curso:
 
-* Types of Web Applications
-* Backlog Planning
+* Tipos de Aplicativos Web
+* Planejamento do Backlog
 * Wireframes
-* Git and Version Control
-* Branches and Merge
-* Deploy and Hosting
+* Git e Controle de Versão
+* Branches e Merge
+* Implantação e Hospedagem
 * HTML
 * CSS
 * JavaScript
 * React
-* Node ecosystem
+* Ecossistema Node
 * APIs
-* HTTP methods
-* JSON data exchange
-* CRUD implementation
-* Testing and documentation
+* Métodos HTTP
+* Troca de dados JSON
+* Implementação CRUD
+* Testes e documentação
 
 ---
 
-## 👩‍💻 Author
+## 👩‍💻 Autora
 
-Developed by **Nathalya e Letícia** for academic purposes.
+Desenvolvido por **Nathalya e Letícia** para fins acadêmicos.
 
 GitHub: https://github.com/naahxlya/cookboss
 
 ---
 
-## 📄 License
+## 📄 Licença
 
-This project is for educational purposes only.
+Este projeto destina-se exclusivamente a fins educacionais.
