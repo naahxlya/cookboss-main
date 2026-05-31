@@ -11,6 +11,8 @@ import api from "../services/api";
 
 import { confirmDialog } from "../utils/confirmDialog";
 
+import { getImageUrl } from "../utils/getImageUrl";
+
 function RecipeCard({
   recipe,
   onDelete,
@@ -165,11 +167,7 @@ function RecipeCard({
           >
 
             <img
-              src={
-                recipe.imagem
-                  ? `http://localhost:3001${recipe.imagem}`
-                  : "https://placehold.co/600x400/f1f1f1/999999?text=CookBoss"
-              }
+              src={getImageUrl(recipe.imagem)}
               alt={recipe.nome}
               className="card-img-top recipe-card-image"
               style={{
@@ -203,7 +201,7 @@ function RecipeCard({
             className={
               isFavorite
                 ? "bi bi-heart-fill text-danger"
-                : "bi bi-heart-fill text-danger"
+                : "bi bi-heart text-danger"
             }
           ></i>
 
