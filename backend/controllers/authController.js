@@ -1,323 +1,57 @@
-const db = require("../database/connection");
+const bcrypt =
+  require("bcrypt");
 
-function formatRecipe(recipe) {
+const db =
+  require("../database/connection");
 
-  return {
-    ...recipe,
+function normalizeEmail(email) {
 
-    modoPreparo:
-      recipe.modo_preparo,
-  };
+  return String(email || "")
+    .trim()
+    .toLowerCase();
 }
 
-function getImageFromRequest(req) {
+exports.register = (req, res) => {
 
-  if (!req.file) {
-
-    return null;
-  }
-
-  const mimeType =
-    req.file.mimetype;
-
-  const base64 =
-    req.file.buffer.toString(
-      "base64"
+  const email =
+    normalizeEmail(
+      req.body.email
     );
 
-  return `data:${mimeType};base64,${base64}`;
-}
+  const password =
+    req.body.password ||
+    req.body.senha;
 
-exports.getRecipes = (req, res) => {
+  const confirmPassword =
+    req.body.confirmPassword ||
+    req.body.confirmarSenha;
 
-  const { user_id } =
-    req.query;
+  if (!email || !password) {
 
-  let sql =
-    "SELECT * FROM recipes";
-
-  const params = [];
-
-  if (user_id) {
-
-    sql =
-      "SELECT * FROM recipes WHERE user_id = ?";
-
-    params.push(user_id);
+    return res.status(400).json({
+      message:
+        "Preencha todos os campos",
+    });
   }
 
-  db.all(
-
-    sql,
-
-    params,
-
-    (error, rows) => {
-
-      if (error) {
-
-        console.error(error);
-
-        return res.status(500).json({
-          message:
-            "Erro ao buscar receitas",
-        });
-      }
-
-      const formattedRecipes =
-        rows.map(formatRecipe);
-
-      res.json(
-        formattedRecipes
-      );
-    }
-  );
-};
-
-exports.addRecipe = (req, res) => {
-
-  const {
-    nome,
-    categoria,
-    tempo,
-    ingredientes,
-    modoPreparo,
-    user_id,
-  } = req.body;
-
   if (
-    !nome ||
-    !categoria ||
-    !tempo ||
-    !ingredientes ||
-    !modoPreparo ||
-    !user_id
+    confirmPassword &&
+    password !== confirmPassword
   ) {
 
     return res.status(400).json({
       message:
-        "Preencha todos os campos obrigatórios",
-    });
-  }
-
-  const imagem =
-    getImageFromRequest(req) || "";
-
-  db.run(
-
-    `
-      INSERT INTO recipes (
-
-        nome,
-        categoria,
-        tempo,
-        ingredientes,
-        modo_preparo,
-        imagem,
-        user_id
-
-      )
-
-      VALUES (?, ?, ?, ?, ?, ?, ?)
-    `,
-
-    [
-      nome,
-      categoria,
-      tempo,
-      ingredientes,
-      modoPreparo,
-      imagem,
-      user_id,
-    ],
-
-    function (error) {
-
-      if (error) {
-
-        console.error(error);
-
-        return res.status(500).json({
-          message:
-            "Erro ao adicionar receita",
-        });
-      }
-
-      res.status(201).json({
-        id: this.lastID,
-        nome,
-        categoria,
-        tempo,
-        ingredientes,
-        modoPreparo,
-        imagem,
-        user_id,
-      });
-    }
-  );
-};
-
-exports.updateRecipe = (req, res) => {
-
-  const id =
-    req.params.id;
-
-  const { user_id } =
-    req.body;
-
-  if (!user_id) {
-
-    return res.status(400).json({
-      message:
-        "Usuário não informado",
+        "As senhas não coincidem",
     });
   }
 
   db.get(
 
-    "SELECT * FROM recipes WHERE id = ?",
+    "SELECT * FROM users WHERE email = ?",
 
-    [id],
+    [email],
 
-    (error, recipe) => {
-
-      if (error) {
-
-        console.error(error);
-
-        return res.status(500).json({
-          message:
-            "Erro ao buscar receita",
-        });
-      }
-
-      if (!recipe) {
-
-        return res.status(404).json({
-          message:
-            "Receita não encontrada",
-        });
-      }
-
-      if (
-        Number(recipe.user_id) !==
-        Number(user_id)
-      ) {
-
-        return res.status(403).json({
-          message:
-            "Você não tem permissão para editar esta receita",
-        });
-      }
-
-      const removerImagem =
-        req.body.removerImagem === "true";
-
-      const newImage =
-        getImageFromRequest(req);
-
-      const updatedRecipe = {
-        nome:
-          req.body.nome ||
-          recipe.nome,
-
-        categoria:
-          req.body.categoria ||
-          recipe.categoria,
-
-        tempo:
-          req.body.tempo ||
-          recipe.tempo,
-
-        ingredientes:
-          req.body.ingredientes ||
-          recipe.ingredientes,
-
-        modoPreparo:
-          req.body.modoPreparo ||
-          recipe.modo_preparo,
-
-        imagem: newImage
-          ? newImage
-          : removerImagem
-            ? ""
-            : recipe.imagem,
-      };
-
-      db.run(
-
-        `
-          UPDATE recipes
-
-          SET
-
-            nome = ?,
-            categoria = ?,
-            tempo = ?,
-            ingredientes = ?,
-            modo_preparo = ?,
-            imagem = ?
-
-          WHERE id = ?
-        `,
-
-        [
-          updatedRecipe.nome,
-          updatedRecipe.categoria,
-          updatedRecipe.tempo,
-          updatedRecipe.ingredientes,
-          updatedRecipe.modoPreparo,
-          updatedRecipe.imagem,
-          id,
-        ],
-
-        function (error) {
-
-          if (error) {
-
-            console.error(error);
-
-            return res.status(500).json({
-              message:
-                "Erro ao atualizar receita",
-            });
-          }
-
-          res.json({
-            id,
-            ...updatedRecipe,
-            user_id:
-              recipe.user_id,
-          });
-        }
-      );
-    }
-  );
-};
-
-exports.deleteRecipe = (req, res) => {
-
-  const id =
-    req.params.id;
-
-  const { user_id } =
-    req.query;
-
-  if (!user_id) {
-
-    return res.status(400).json({
-      message:
-        "Usuário não informado",
-    });
-  }
-
-  db.get(
-
-    "SELECT * FROM recipes WHERE id = ?",
-
-    [id],
-
-    (error, recipe) => {
+    async (error, user) => {
 
       if (error) {
 
@@ -325,66 +59,147 @@ exports.deleteRecipe = (req, res) => {
 
         return res.status(500).json({
           message:
-            "Erro ao buscar receita",
+            "Erro ao verificar usuário",
         });
       }
 
-      if (!recipe) {
+      if (user) {
 
-        return res.status(404).json({
+        return res.status(400).json({
           message:
-            "Receita não encontrada",
+            "Email já cadastrado",
         });
       }
 
-      if (
-        Number(recipe.user_id) !==
-        Number(user_id)
-      ) {
+      try {
 
-        return res.status(403).json({
-          message:
-            "Você não tem permissão para excluir esta receita",
-        });
-      }
+        const hashedPassword =
+          await bcrypt.hash(
+            password,
+            10
+          );
 
-      db.run(
+        db.run(
 
-        `
-          DELETE FROM favorites
-          WHERE recipe_id = ?
-        `,
+          `
+            INSERT INTO users (
+              email,
+              password
+            )
 
-        [id],
+            VALUES (?, ?)
+          `,
 
-        function () {
+          [
+            email,
+            hashedPassword,
+          ],
 
-          db.run(
+          function (error) {
 
-            "DELETE FROM recipes WHERE id = ?",
+            if (error) {
 
-            [id],
+              console.error(error);
 
-            function (error) {
-
-              if (error) {
-
-                console.error(error);
-
-                return res.status(500).json({
-                  message:
-                    "Erro ao remover receita",
-                });
-              }
-
-              res.json({
+              return res.status(500).json({
                 message:
-                  "Receita removida com sucesso",
+                  "Erro ao cadastrar usuário",
               });
             }
-          );
-        }
-      );
+
+            return res.status(201).json({
+              message:
+                "Usuário cadastrado com sucesso",
+
+              user: {
+                id: this.lastID,
+                email,
+              },
+            });
+          }
+        );
+
+      } catch (error) {
+
+        console.error(error);
+
+        return res.status(500).json({
+          message:
+            "Erro ao criptografar senha",
+        });
+      }
+    }
+  );
+};
+
+exports.login = (req, res) => {
+
+  const email =
+    normalizeEmail(
+      req.body.email
+    );
+
+  const password =
+    req.body.password ||
+    req.body.senha;
+
+  if (!email || !password) {
+
+    return res.status(400).json({
+      message:
+        "Preencha todos os campos",
+    });
+  }
+
+  db.get(
+
+    "SELECT * FROM users WHERE email = ?",
+
+    [email],
+
+    async (error, user) => {
+
+      if (error) {
+
+        console.error(error);
+
+        return res.status(500).json({
+          message:
+            "Erro ao fazer login",
+        });
+      }
+
+      if (!user) {
+
+        return res.status(401).json({
+          message:
+            "Email ou senha incorretos",
+        });
+      }
+
+      const passwordMatch =
+        await bcrypt.compare(
+          password,
+          user.password
+        );
+
+      if (!passwordMatch) {
+
+        return res.status(401).json({
+          message:
+            "Email ou senha incorretos",
+        });
+      }
+
+      return res.json({
+        message:
+          "Login realizado com sucesso",
+
+        user: {
+          id: user.id,
+          email: user.email,
+        },
+      });
     }
   );
 };
