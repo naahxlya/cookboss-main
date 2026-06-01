@@ -1,32 +1,60 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import api from "../services/api";
-import RecipeCard from "../components/RecipeCard";
-import logo from "../assets/logo.svg";
+import {
+  useEffect,
+  useState,
+} from "react";
 
+import {
+  Link,
+} from "react-router-dom";
+
+import api from "../services/api";
+
+import RecipeCard from "../components/RecipeCard";
+
+import logo from "../assets/logo.svg";
 
 function Recipes({
   search,
   selectedCategory,
 }) {
 
-  const [recipes, setRecipes] = useState([]);
+  const [recipes, setRecipes] =
+    useState([]);
+
+  const user = JSON.parse(
+    localStorage.getItem(
+      "cookboss_user"
+    )
+  );
 
   useEffect(() => {
+
     loadRecipes();
+
   }, []);
 
   async function loadRecipes() {
 
+    if (!user) return;
+
     try {
 
-      const response = await api.get("/recipes");
+      const response =
+        await api.get(
+          `/recipes?user_id=${user.id}`
+        );
 
-      setRecipes(response.data);
+      setRecipes(
+        response.data
+      );
 
     } catch (error) {
 
       console.error(error);
+
+      alert(
+        "Erro ao carregar receitas"
+      );
     }
   }
 
@@ -34,25 +62,29 @@ function Recipes({
 
     setRecipes((prevRecipes) =>
       prevRecipes.filter(
-        (recipe) => recipe.id !== id
+        (recipe) =>
+          recipe.id !== id
       )
     );
   }
 
-  const filteredRecipes = recipes.filter(
-    (recipe) => {
+  const filteredRecipes =
+    recipes.filter((recipe) => {
+
+      const searchText =
+        search.toLowerCase();
+
+      const recipeName =
+        String(recipe.nome || "")
+          .toLowerCase();
+
+      const recipeCategory =
+        String(recipe.categoria || "")
+          .toLowerCase();
 
       const matchesSearch =
-
-      recipe.nome
-        .toLowerCase()
-        .includes(search.toLowerCase())
-
-      ||
-
-      recipe.categoria
-        .toLowerCase()
-        .includes(search.toLowerCase());
+        recipeName.includes(searchText) ||
+        recipeCategory.includes(searchText);
 
       const matchesCategory =
         selectedCategory === ""
@@ -63,8 +95,7 @@ function Recipes({
         matchesSearch &&
         matchesCategory
       );
-    }
-  );
+    });
 
   return (
     <main className="container py-1">
@@ -108,17 +139,15 @@ function Recipes({
           </h3>
 
           <p className="text-muted mb-4">
-
             Tente buscar outro nome
             ou categoria.
-
           </p>
 
           <Link
             to="/add"
             className="btn btn-warning rounded-pill px-4 fw-bold"
           >
-            <i class="bi bi-plus m-1"></i>
+            <i className="bi bi-plus m-1"></i>
             Adicionar Receita
           </Link>
 

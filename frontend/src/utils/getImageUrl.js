@@ -1,6 +1,7 @@
-const API_URL =
+const API_URL = (
   import.meta.env.VITE_API_URL ||
-  "http://localhost:3001";
+  "http://localhost:3001"
+).replace(/\/$/, "");
 
 export function getImageUrl(imagePath) {
 
@@ -9,7 +10,10 @@ export function getImageUrl(imagePath) {
     return "https://placehold.co/600x400/f1f1f1/999999?text=CookBoss";
   }
 
-  if (imagePath.startsWith("http")) {
+  if (
+    imagePath.startsWith("http") ||
+    imagePath.startsWith("data:")
+  ) {
 
     return imagePath;
   }

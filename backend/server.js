@@ -6,9 +6,6 @@ const express =
 const cors =
   require("cors");
 
-const path =
-  require("path");
-
 require("./database/init");
 
 const recipeRoutes =
@@ -26,18 +23,31 @@ const favoriteRoutes =
 const app =
   express();
 
+function normalizeOrigin(origin) {
+
+  return String(origin || "")
+    .replace(/\/$/, "");
+}
+
 const allowedOrigins = [
   "http://localhost:5173",
-  process.env.FRONTEND_URL,
-];
+  normalizeOrigin(
+    process.env.FRONTEND_URL
+  ),
+].filter(Boolean);
 
 app.use(
   cors({
     origin: function (origin, callback) {
 
+      const normalizedOrigin =
+        normalizeOrigin(origin);
+
       if (
         !origin ||
-        allowedOrigins.includes(origin)
+        allowedOrigins.includes(
+          normalizedOrigin
+        )
       ) {
 
         callback(null, true);
@@ -62,16 +72,12 @@ app.use(
   })
 );
 
-app.use(
-  "/uploads",
+app.get("/", (req, res) => {
 
-  express.static(
-    path.join(
-      __dirname,
-      "uploads"
-    )
-  )
-);
+  res.send(
+    "API CookBoss online"
+  );
+});
 
 app.use(
   "/recipes",
