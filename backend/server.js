@@ -6,9 +6,6 @@ const express =
 const cors =
   require("cors");
 
-const path =
-  require("path");
-
 require("./database/init");
 
 const recipeRoutes =
@@ -26,7 +23,46 @@ const favoriteRoutes =
 const app =
   express();
 
-app.use(cors());
+function normalizeOrigin(origin) {
+
+  return String(origin || "")
+    .replace(/\/$/, "");
+}
+
+const allowedOrigins = [
+  "http://localhost:5173",
+  normalizeOrigin(
+    process.env.FRONTEND_URL
+  ),
+].filter(Boolean);
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+
+      const normalizedOrigin =
+        normalizeOrigin(origin);
+
+      if (
+        !origin ||
+        allowedOrigins.includes(
+          normalizedOrigin
+        )
+      ) {
+
+        callback(null, true);
+
+      } else {
+
+        callback(
+          new Error(
+            "Origem não permitida pelo CORS"
+          )
+        );
+      }
+    },
+  })
+);
 
 app.use(express.json());
 
@@ -36,16 +72,12 @@ app.use(
   })
 );
 
-app.use(
-  "/uploads",
+app.get("/", (req, res) => {
 
-  express.static(
-    path.join(
-      __dirname,
-      "uploads"
-    )
-  )
-);
+  res.send(
+    "API CookBoss online"
+  );
+});
 
 app.use(
   "/recipes",
@@ -67,7 +99,8 @@ app.use(
   favoriteRoutes
 );
 
-const PORT = 3001;
+const PORT =
+  process.env.PORT || 3001;
 
 app.listen(PORT, () => {
 

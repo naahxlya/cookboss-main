@@ -1,7 +1,19 @@
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import {
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+
+import {
+  useNavigate,
+  useParams,
+} from "react-router-dom";
+
 import api from "../services/api";
+
 import categories from "../data/categories";
+
+import { getImageUrl } from "../utils/getImageUrl";
 
 function EditRecipe() {
 
@@ -9,36 +21,90 @@ function EditRecipe() {
 
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
-    nome: "",
-    categoria: "",
-    tempo: "",
-    imagem: "",
-    ingredientes: "",
-    modoPreparo: "",
-  });
+  const fileInputRef =
+    useRef(null);
+
+  const user = JSON.parse(
+    localStorage.getItem(
+      "cookboss_user"
+    )
+  );
+
+  const [formData, setFormData] =
+    useState({
+      nome: "",
+      categoria: "",
+      tempo: "",
+      imagem: "",
+      ingredientes: "",
+      modoPreparo: "",
+    });
+
+  const [
+    removeCurrentImage,
+    setRemoveCurrentImage,
+  ] = useState(false);
 
   useEffect(() => {
+
     loadRecipe();
+
   }, []);
 
   async function loadRecipe() {
 
     try {
 
-      const response = await api.get("/recipes");
+      const response =
+        await api.get(
+          `/recipes?user_id=${user.id}`
+        );
 
-      const recipe = response.data.find(
-        (item) => item.id === Number(id)
-      );
+      const recipe =
+        response.data.find(
+          (item) =>
+            Number(item.id) ===
+            Number(id)
+        );
 
-      if (recipe) {
-        setFormData(recipe);
+      if (!recipe) {
+
+        alert(
+          "Receita não encontrada"
+        );
+
+        navigate("/recipes");
+
+        return;
       }
+
+      setFormData({
+        nome:
+          recipe.nome || "",
+
+        categoria:
+          recipe.categoria || "",
+
+        tempo:
+          recipe.tempo || "",
+
+        imagem:
+          recipe.imagem || "",
+
+        ingredientes:
+          recipe.ingredientes || "",
+
+        modoPreparo:
+          recipe.modoPreparo || "",
+      });
 
     } catch (error) {
 
       console.error(error);
+
+      alert(
+        "Erro ao carregar receita"
+      );
     }
   }
 
@@ -46,33 +112,65 @@ function EditRecipe() {
 
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+
+      [e.target.name]:
+        e.target.value,
     });
   }
 
   function handleImageChange(e) {
 
-    const file = e.target.files[0];
+    const file =
+      e.target.files[0];
 
     if (!file) return;
 
     if (file.size > 500 * 1024) {
-      alert("Escolha uma imagem menor que 500KB");
+
+      alert(
+        "Escolha uma imagem menor que 500KB"
+      );
+
       return;
     }
 
     setFormData({
       ...formData,
+
       imagem: file,
     });
+
+    setRemoveCurrentImage(false);
   }
 
   function removeImage() {
 
     setFormData({
       ...formData,
+
       imagem: "",
     });
+
+    setRemoveCurrentImage(true);
+
+    if (fileInputRef.current) {
+
+      fileInputRef.current.value = "";
+    }
+  }
+
+  function getPreviewImage() {
+
+    if (formData.imagem instanceof File) {
+
+      return URL.createObjectURL(
+        formData.imagem
+      );
+    }
+
+    return getImageUrl(
+      formData.imagem
+    );
   }
 
   async function handleSubmit(e) {
@@ -81,16 +179,28 @@ function EditRecipe() {
 
     try {
 
-      const data = new FormData();
+      const data =
+        new FormData();
 
-      data.append("nome", formData.nome);
+      data.append(
+        "user_id",
+        user.id
+      );
+
+      data.append(
+        "nome",
+        formData.nome
+      );
 
       data.append(
         "categoria",
         formData.categoria
       );
 
-      data.append("tempo", formData.tempo);
+      data.append(
+        "tempo",
+        formData.tempo
+      );
 
       data.append(
         "ingredientes",
@@ -102,7 +212,15 @@ function EditRecipe() {
         formData.modoPreparo
       );
 
+      data.append(
+        "removerImagem",
+        removeCurrentImage
+          ? "true"
+          : "false"
+      );
+
       if (formData.imagem instanceof File) {
+
         data.append(
           "imagem",
           formData.imagem
@@ -114,7 +232,9 @@ function EditRecipe() {
         data
       );
 
-      alert("Receita atualizada!");
+      alert(
+        "Receita atualizada!"
+      );
 
       navigate("/recipes");
 
@@ -122,7 +242,10 @@ function EditRecipe() {
 
       console.error(error);
 
-      alert("Erro ao atualizar");
+      alert(
+        error.response?.data?.message ||
+        "Erro ao atualizar"
+      );
     }
   }
 
@@ -138,8 +261,8 @@ function EditRecipe() {
             <div className="card-body p-5">
 
               <h2 className="text-center fw-bold mb-4 text-warning">
-                <i class="bi bi-pencil-fill mx-2"></i>
-                 Editar Receita
+                <i className="bi bi-pencil-fill mx-2"></i>
+                Editar Receita
               </h2>
 
               <form onSubmit={handleSubmit}>
@@ -254,6 +377,7 @@ function EditRecipe() {
                   </label>
 
                   <input
+                    ref={fileInputRef}
                     type="file"
                     accept="image/*"
                     className="form-control form-control-lg"
@@ -265,24 +389,14 @@ function EditRecipe() {
                 <div className="text-center mb-4">
 
                   <img
-                    src={
-                      formData.imagem instanceof File
-                        ? URL.createObjectURL(formData.imagem)
-                        : formData.imagem
-                          ? `http://localhost:3001${formData.imagem}`
-                          : "https://placehold.co/600x400/f1f1f1/999999?text=CookBoss"
-                    }
-
+                    src={getPreviewImage()}
                     alt="Preview da receita"
-
                     className="img-fluid rounded-4 shadow-sm"
-
                     style={{
                       maxHeight: "260px",
                       width: "100%",
                       objectFit: "cover",
                     }}
-
                     onError={(e) => {
                       e.target.src =
                         "https://placehold.co/600x400/f1f1f1/999999?text=CookBoss";
@@ -294,16 +408,18 @@ function EditRecipe() {
                 <div className="d-flex gap-3 edit-recipe-actions">
 
                   <button className="btn btn-warning btn-lg fw-bold flex-fill">
-                    <i class="bi bi-check m-1"></i>
+                    <i className="bi bi-check m-1"></i>
                     Salvar Alterações
                   </button>
 
                   <button
                     type="button"
                     className="btn btn-outline-secondary btn-lg fw-bold flex-fill"
-                    onClick={() => navigate("/recipes")}
+                    onClick={() =>
+                      navigate("/recipes")
+                    }
                   >
-                    <i class="bi bi-x"></i>
+                    <i className="bi bi-x"></i>
                     Cancelar
                   </button>
 
@@ -312,7 +428,7 @@ function EditRecipe() {
                     className="btn btn-outline-danger"
                     onClick={removeImage}
                   >
-                    <i class="bi bi-trash-fill m-1"></i>
+                    <i className="bi bi-trash-fill m-1"></i>
                     Remover Imagem
                   </button>
 
@@ -321,9 +437,13 @@ function EditRecipe() {
               </form>
 
             </div>
+
           </div>
+
         </div>
+
       </div>
+
     </div>
   );
 }

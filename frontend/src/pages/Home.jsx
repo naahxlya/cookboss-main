@@ -1,12 +1,18 @@
-import { Link, useNavigate } from "react-router-dom";
+import {
+  Link,
+  useNavigate,
+} from "react-router-dom";
+
 import categories from "../data/categories";
+
 import logo from "../assets/logo.svg";
-import logosquare from "../assets/logo-square.svg";
 
+function Home({
+  setSelectedCategory,
+}) {
 
-function Home({ setSelectedCategory }) {
-
-  const navigate = useNavigate();
+  const navigate =
+    useNavigate();
 
   const categoryData = {
     "Café da manhã": {
@@ -71,6 +77,13 @@ function Home({ setSelectedCategory }) {
     navigate("/recipes");
   }
 
+  function handleAllRecipesClick() {
+
+    setSelectedCategory("");
+
+    navigate("/recipes");
+  }
+
   return (
     <main>
 
@@ -79,9 +92,10 @@ function Home({ setSelectedCategory }) {
         <div className="row align-items-center g-5">
 
           <div className="col-lg-6">
+
             <span className="badge bg-warning text-dark rounded-pill px-3 py-2 mb-3">
-               <i class="bi bi-journals m-1"></i>
-                Seu livro de receitas digital
+              <i className="bi bi-journals m-1"></i>
+              Seu livro de receitas digital
             </span>
 
             <h1 className="display-4 fw-bold mb-4">
@@ -95,13 +109,14 @@ function Home({ setSelectedCategory }) {
 
             <div className="d-flex flex-wrap gap-3">
 
-              <Link
-                to="/recipes"
+              <button
+                type="button"
                 className="btn btn-warning btn-lg rounded-pill px-5 fw-bold"
+                onClick={handleAllRecipesClick}
               >
-                <i class="bi bi-egg-fried m-2"></i>
+                <i className="bi bi-egg-fried m-2"></i>
                 Ver Receitas
-              </Link>
+              </button>
 
               <Link
                 to="/add"
@@ -153,13 +168,14 @@ function Home({ setSelectedCategory }) {
 
           </div>
 
-          <Link
-            to="/recipes"
-            className="text-warning fw-bold text-decoration-none"
+          <button
+            type="button"
+            className="btn btn-link text-warning fw-bold text-decoration-none"
+            onClick={handleAllRecipesClick}
           >
             Ver todas
-            <i class="bi bi-caret-right-fill m-1"></i>
-          </Link>
+            <i className="bi bi-caret-right-fill m-1"></i>
+          </button>
 
         </div>
 
@@ -181,7 +197,7 @@ function Home({ setSelectedCategory }) {
               >
 
                 <div className="fs-1 mb-0">
-                  {categoryData[category].icon}
+                  {categoryData[category]?.icon || "🍴"}
                 </div>
 
                 <h5 className="fw-bold">
@@ -190,8 +206,8 @@ function Home({ setSelectedCategory }) {
 
                 <p className="text-muted mb-0">
                   {
-                    categoryData[category]
-                      .description
+                    categoryData[category]?.description ||
+                    "Receitas especiais do CookBoss."
                   }
                 </p>
 
@@ -222,7 +238,7 @@ function Home({ setSelectedCategory }) {
             to="/add"
             className="btn btn-warning rounded-pill px-5 fw-bold"
           >
-            <i class="bi bi-plus m-1"></i>
+            <i className="bi bi-plus m-1"></i>
             Cadastrar minha primeira receita
           </Link>
 

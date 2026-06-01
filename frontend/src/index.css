@@ -156,3 +156,18 @@ footer {
 .edit-recipe-actions .btn:hover {
   transform: translateY(-2px);
 }
+
+@media (max-width: 576px) {
+  .edit-recipe-actions {
+    flex-direction: column;
+  }
+
+  .edit-recipe-actions .btn {
+    width: 100%;
+  }
+
+  .navbar .btn-link.nav-link {
+    padding-left: 0;
+    text-align: left;
+  }
+}

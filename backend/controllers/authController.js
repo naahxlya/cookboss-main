@@ -1,99 +1,58 @@
 const db = require("../database/connection");
 
-const bcrypt = require("bcrypt");
+function formatRecipe(recipe) {
 
-exports.register = async (req, res) => {
+  return {
+    ...recipe,
 
-  const {
-    email,
-    password,
-    confirmPassword,
-  } = req.body;
+    modoPreparo:
+      recipe.modo_preparo,
+  };
+}
 
-  if (
-    !email ||
-    !password ||
-    !confirmPassword
-  ) {
-    return res.status(400).json({
-      message:
-        "Preencha todos os campos",
-    });
+function getImageFromRequest(req) {
+
+  if (!req.file) {
+
+    return null;
   }
 
-  if (password !== confirmPassword) {
-    return res.status(400).json({
-      message:
-        "As senhas não coincidem",
-    });
-  }
+  const mimeType =
+    req.file.mimetype;
 
-  try {
-
-    const hashedPassword =
-      await bcrypt.hash(password, 10);
-
-    db.run(
-      `
-      INSERT INTO users (
-        email,
-        password
-      )
-      VALUES (?, ?)
-      `,
-      [email, hashedPassword],
-
-      function (error) {
-
-        if (error) {
-
-          return res.status(400).json({
-            message:
-              "Email já cadastrado",
-          });
-        }
-
-        res.status(201).json({
-          message:
-            "Usuário cadastrado com sucesso",
-        });
-      }
+  const base64 =
+    req.file.buffer.toString(
+      "base64"
     );
 
-  } catch (error) {
+  return `data:${mimeType};base64,${base64}`;
+}
 
-    console.error(error);
+exports.getRecipes = (req, res) => {
 
-    res.status(500).json({
-      message:
-        "Erro interno no servidor",
-    });
-  }
-};
+  const { user_id } =
+    req.query;
 
-exports.login = (req, res) => {
+  let sql =
+    "SELECT * FROM recipes";
 
-  const {
-    email,
-    password,
-  } = req.body;
+  const params = [];
 
-  if (!email || !password) {
+  if (user_id) {
 
-    return res.status(400).json({
-      message:
-        "Preencha todos os campos",
-    });
+    sql =
+      "SELECT * FROM recipes WHERE user_id = ?";
+
+    params.push(user_id);
   }
 
-  db.get(
-    `
-    SELECT * FROM users
-    WHERE email = ?
-    `,
-    [email],
+  db.all(
 
-    async (error, user) => {
+    sql,
+
+    params,
+
+    (error, rows) => {
 
       if (error) {
 
@@ -101,54 +60,331 @@ exports.login = (req, res) => {
 
         return res.status(500).json({
           message:
-            "Erro interno no servidor",
+            "Erro ao buscar receitas",
         });
       }
 
-      if (!user) {
+      const formattedRecipes =
+        rows.map(formatRecipe);
 
-        return res.status(404).json({
-          message:
-            "Usuário não encontrado",
-        });
-      }
+      res.json(
+        formattedRecipes
+      );
+    }
+  );
+};
 
-      try {
+exports.addRecipe = (req, res) => {
 
-        const passwordMatch =
-          await bcrypt.compare(
-            password,
-            user.password
-          );
+  const {
+    nome,
+    categoria,
+    tempo,
+    ingredientes,
+    modoPreparo,
+    user_id,
+  } = req.body;
 
-        if (!passwordMatch) {
+  if (
+    !nome ||
+    !categoria ||
+    !tempo ||
+    !ingredientes ||
+    !modoPreparo ||
+    !user_id
+  ) {
 
-          return res.status(401).json({
-            message:
-              "Senha incorreta",
-          });
-        }
+    return res.status(400).json({
+      message:
+        "Preencha todos os campos obrigatórios",
+    });
+  }
 
-        return res.status(200).json({
+  const imagem =
+    getImageFromRequest(req) || "";
 
-          message:
-            "Login realizado com sucesso",
+  db.run(
 
-          user: {
-            id: user.id,
-            email: user.email,
-          },
-        });
+    `
+      INSERT INTO recipes (
 
-      } catch (compareError) {
+        nome,
+        categoria,
+        tempo,
+        ingredientes,
+        modo_preparo,
+        imagem,
+        user_id
 
-        console.error(compareError);
+      )
+
+      VALUES (?, ?, ?, ?, ?, ?, ?)
+    `,
+
+    [
+      nome,
+      categoria,
+      tempo,
+      ingredientes,
+      modoPreparo,
+      imagem,
+      user_id,
+    ],
+
+    function (error) {
+
+      if (error) {
+
+        console.error(error);
 
         return res.status(500).json({
           message:
-            "Erro ao validar senha",
+            "Erro ao adicionar receita",
         });
       }
+
+      res.status(201).json({
+        id: this.lastID,
+        nome,
+        categoria,
+        tempo,
+        ingredientes,
+        modoPreparo,
+        imagem,
+        user_id,
+      });
+    }
+  );
+};
+
+exports.updateRecipe = (req, res) => {
+
+  const id =
+    req.params.id;
+
+  const { user_id } =
+    req.body;
+
+  if (!user_id) {
+
+    return res.status(400).json({
+      message:
+        "Usuário não informado",
+    });
+  }
+
+  db.get(
+
+    "SELECT * FROM recipes WHERE id = ?",
+
+    [id],
+
+    (error, recipe) => {
+
+      if (error) {
+
+        console.error(error);
+
+        return res.status(500).json({
+          message:
+            "Erro ao buscar receita",
+        });
+      }
+
+      if (!recipe) {
+
+        return res.status(404).json({
+          message:
+            "Receita não encontrada",
+        });
+      }
+
+      if (
+        Number(recipe.user_id) !==
+        Number(user_id)
+      ) {
+
+        return res.status(403).json({
+          message:
+            "Você não tem permissão para editar esta receita",
+        });
+      }
+
+      const removerImagem =
+        req.body.removerImagem === "true";
+
+      const newImage =
+        getImageFromRequest(req);
+
+      const updatedRecipe = {
+        nome:
+          req.body.nome ||
+          recipe.nome,
+
+        categoria:
+          req.body.categoria ||
+          recipe.categoria,
+
+        tempo:
+          req.body.tempo ||
+          recipe.tempo,
+
+        ingredientes:
+          req.body.ingredientes ||
+          recipe.ingredientes,
+
+        modoPreparo:
+          req.body.modoPreparo ||
+          recipe.modo_preparo,
+
+        imagem: newImage
+          ? newImage
+          : removerImagem
+            ? ""
+            : recipe.imagem,
+      };
+
+      db.run(
+
+        `
+          UPDATE recipes
+
+          SET
+
+            nome = ?,
+            categoria = ?,
+            tempo = ?,
+            ingredientes = ?,
+            modo_preparo = ?,
+            imagem = ?
+
+          WHERE id = ?
+        `,
+
+        [
+          updatedRecipe.nome,
+          updatedRecipe.categoria,
+          updatedRecipe.tempo,
+          updatedRecipe.ingredientes,
+          updatedRecipe.modoPreparo,
+          updatedRecipe.imagem,
+          id,
+        ],
+
+        function (error) {
+
+          if (error) {
+
+            console.error(error);
+
+            return res.status(500).json({
+              message:
+                "Erro ao atualizar receita",
+            });
+          }
+
+          res.json({
+            id,
+            ...updatedRecipe,
+            user_id:
+              recipe.user_id,
+          });
+        }
+      );
+    }
+  );
+};
+
+exports.deleteRecipe = (req, res) => {
+
+  const id =
+    req.params.id;
+
+  const { user_id } =
+    req.query;
+
+  if (!user_id) {
+
+    return res.status(400).json({
+      message:
+        "Usuário não informado",
+    });
+  }
+
+  db.get(
+
+    "SELECT * FROM recipes WHERE id = ?",
+
+    [id],
+
+    (error, recipe) => {
+
+      if (error) {
+
+        console.error(error);
+
+        return res.status(500).json({
+          message:
+            "Erro ao buscar receita",
+        });
+      }
+
+      if (!recipe) {
+
+        return res.status(404).json({
+          message:
+            "Receita não encontrada",
+        });
+      }
+
+      if (
+        Number(recipe.user_id) !==
+        Number(user_id)
+      ) {
+
+        return res.status(403).json({
+          message:
+            "Você não tem permissão para excluir esta receita",
+        });
+      }
+
+      db.run(
+
+        `
+          DELETE FROM favorites
+          WHERE recipe_id = ?
+        `,
+
+        [id],
+
+        function () {
+
+          db.run(
+
+            "DELETE FROM recipes WHERE id = ?",
+
+            [id],
+
+            function (error) {
+
+              if (error) {
+
+                console.error(error);
+
+                return res.status(500).json({
+                  message:
+                    "Erro ao remover receita",
+                });
+              }
+
+              res.json({
+                message:
+                  "Receita removida com sucesso",
+              });
+            }
+          );
+        }
+      );
     }
   );
 };

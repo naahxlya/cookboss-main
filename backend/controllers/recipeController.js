@@ -1,16 +1,62 @@
 const db = require("../database/connection");
 
+function formatRecipe(recipe) {
+
+  return {
+    ...recipe,
+
+    modoPreparo:
+      recipe.modo_preparo,
+  };
+}
+
+function getImageFromRequest(req) {
+
+  if (!req.file) {
+
+    return null;
+  }
+
+  const mimeType =
+    req.file.mimetype;
+
+  const base64 =
+    req.file.buffer.toString(
+      "base64"
+    );
+
+  return `data:${mimeType};base64,${base64}`;
+}
+
 exports.getRecipes = (req, res) => {
+
+  const { user_id } =
+    req.query;
+
+  let sql =
+    "SELECT * FROM recipes";
+
+  const params = [];
+
+  if (user_id) {
+
+    sql =
+      "SELECT * FROM recipes WHERE user_id = ?";
+
+    params.push(user_id);
+  }
 
   db.all(
 
-    "SELECT * FROM recipes",
+    sql,
 
-    [],
+    params,
 
     (error, rows) => {
 
       if (error) {
+
+        console.error(error);
 
         return res.status(500).json({
           message:
@@ -19,13 +65,7 @@ exports.getRecipes = (req, res) => {
       }
 
       const formattedRecipes =
-        rows.map((recipe) => ({
-
-          ...recipe,
-
-          modoPreparo:
-            recipe.modo_preparo,
-        }));
+        rows.map(formatRecipe);
 
       res.json(
         formattedRecipes
@@ -45,9 +85,23 @@ exports.addRecipe = (req, res) => {
     user_id,
   } = req.body;
 
-  const imagem = req.file
-    ? `/uploads/${req.file.filename}`
-    : "";
+  if (
+    !nome ||
+    !categoria ||
+    !tempo ||
+    !ingredientes ||
+    !modoPreparo ||
+    !user_id
+  ) {
+
+    return res.status(400).json({
+      message:
+        "Preencha todos os campos obrigatórios",
+    });
+  }
+
+  const imagem =
+    getImageFromRequest(req) || "";
 
   db.run(
 
@@ -81,6 +135,8 @@ exports.addRecipe = (req, res) => {
 
       if (error) {
 
+        console.error(error);
+
         return res.status(500).json({
           message:
             "Erro ao adicionar receita",
@@ -88,18 +144,13 @@ exports.addRecipe = (req, res) => {
       }
 
       res.status(201).json({
-
         id: this.lastID,
-
         nome,
         categoria,
         tempo,
         ingredientes,
-
         modoPreparo,
-
         imagem,
-
         user_id,
       });
     }
@@ -108,7 +159,19 @@ exports.addRecipe = (req, res) => {
 
 exports.updateRecipe = (req, res) => {
 
-  const id = req.params.id;
+  const id =
+    req.params.id;
+
+  const { user_id } =
+    req.body;
+
+  if (!user_id) {
+
+    return res.status(400).json({
+      message:
+        "Usuário não informado",
+    });
+  }
 
   db.get(
 
@@ -119,6 +182,8 @@ exports.updateRecipe = (req, res) => {
     (error, recipe) => {
 
       if (error) {
+
+        console.error(error);
 
         return res.status(500).json({
           message:
@@ -134,8 +199,24 @@ exports.updateRecipe = (req, res) => {
         });
       }
 
-      const updatedRecipe = {
+      if (
+        Number(recipe.user_id) !==
+        Number(user_id)
+      ) {
 
+        return res.status(403).json({
+          message:
+            "Você não tem permissão para editar esta receita",
+        });
+      }
+
+      const removerImagem =
+        req.body.removerImagem === "true";
+
+      const newImage =
+        getImageFromRequest(req);
+
+      const updatedRecipe = {
         nome:
           req.body.nome ||
           recipe.nome,
@@ -156,9 +237,11 @@ exports.updateRecipe = (req, res) => {
           req.body.modoPreparo ||
           recipe.modo_preparo,
 
-        imagem: req.file
-          ? `/uploads/${req.file.filename}`
-          : recipe.imagem,
+        imagem: newImage
+          ? newImage
+          : removerImagem
+            ? ""
+            : recipe.imagem,
       };
 
       db.run(
@@ -192,6 +275,8 @@ exports.updateRecipe = (req, res) => {
 
           if (error) {
 
+            console.error(error);
+
             return res.status(500).json({
               message:
                 "Erro ao atualizar receita",
@@ -199,13 +284,10 @@ exports.updateRecipe = (req, res) => {
           }
 
           res.json({
-
             id,
-
             ...updatedRecipe,
-
-            modoPreparo:
-              updatedRecipe.modoPreparo,
+            user_id:
+              recipe.user_id,
           });
         }
       );
@@ -215,28 +297,94 @@ exports.updateRecipe = (req, res) => {
 
 exports.deleteRecipe = (req, res) => {
 
-  const id = req.params.id;
+  const id =
+    req.params.id;
 
-  db.run(
+  const { user_id } =
+    req.query;
 
-    "DELETE FROM recipes WHERE id = ?",
+  if (!user_id) {
+
+    return res.status(400).json({
+      message:
+        "Usuário não informado",
+    });
+  }
+
+  db.get(
+
+    "SELECT * FROM recipes WHERE id = ?",
 
     [id],
 
-    function (error) {
+    (error, recipe) => {
 
       if (error) {
 
+        console.error(error);
+
         return res.status(500).json({
           message:
-            "Erro ao remover receita",
+            "Erro ao buscar receita",
         });
       }
 
-      res.json({
-        message:
-          "Receita removida com sucesso",
-      });
+      if (!recipe) {
+
+        return res.status(404).json({
+          message:
+            "Receita não encontrada",
+        });
+      }
+
+      if (
+        Number(recipe.user_id) !==
+        Number(user_id)
+      ) {
+
+        return res.status(403).json({
+          message:
+            "Você não tem permissão para excluir esta receita",
+        });
+      }
+
+      db.run(
+
+        `
+          DELETE FROM favorites
+          WHERE recipe_id = ?
+        `,
+
+        [id],
+
+        function () {
+
+          db.run(
+
+            "DELETE FROM recipes WHERE id = ?",
+
+            [id],
+
+            function (error) {
+
+              if (error) {
+
+                console.error(error);
+
+                return res.status(500).json({
+                  message:
+                    "Erro ao remover receita",
+                });
+              }
+
+              res.json({
+                message:
+                  "Receita removida com sucesso",
+              });
+            }
+          );
+        }
+      );
     }
   );
 };
