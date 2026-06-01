@@ -4,6 +4,8 @@ O CookBoss é um aplicativo web completo para gerenciamento de receitas, desenvo
 
 A plataforma permite que os usuários naveguem, criem, editem, excluam e adicionem receitas aos favoritos por meio de uma interface moderna e responsiva.
 
+A versão 1.0.0 representa a primeira versão estável do sistema, contendo CRUD, autenticação, recuperação de senha, favoritos, perfil, banco SQLite e deploy.
+
 Este projeto foi desenvolvido para demonstrar os conceitos estudados durante o curso, incluindo:
 
 * Desenvolvimento de aplicações web
